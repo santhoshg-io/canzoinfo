@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useParams, Link, Navigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ArrowRight, X, ChevronLeft } from "lucide-react";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getWork, getAdjacent } from "@/data/works";
 
@@ -42,8 +41,6 @@ const WorkDetailPage = () => {
 
   return (
     <div className="min-h-screen">
-      <Navbar />
-
       {/* Hero */}
       <motion.section
         initial={{ opacity: 0 }}

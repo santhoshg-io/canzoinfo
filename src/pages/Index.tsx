@@ -1,4 +1,3 @@
-import Navbar from "@/components/Navbar";
 import BrandStrip from "@/components/BrandStrip";
 import HeroSection from "@/components/HeroSection";
 import ProblemSolution from "@/components/ProblemSolution";
@@ -15,7 +14,6 @@ import Reveal from "@/components/Reveal";
 const Index = () => {
   return (
     <div className="min-h-screen">
-      <Navbar />
       <BrandStrip />
       <HeroSection />
       <Reveal><ProblemSolution /></Reveal>
