@@ -49,15 +49,20 @@ const Navbar = () => {
   useEffect(() => {
     const el = navElRef.current;
     if (!el) return;
+    let rafId = 0;
     const setVar = () => {
-      const h = el.getBoundingClientRect().height;
-      document.documentElement.style.setProperty("--navbar-height", `${Math.round(h)}px`);
+      cancelAnimationFrame(rafId);
+      rafId = requestAnimationFrame(() => {
+        const h = el.getBoundingClientRect().height;
+        document.documentElement.style.setProperty("--navbar-height", `${Math.round(h)}px`);
+      });
     };
     setVar();
     const ro = new ResizeObserver(setVar);
     ro.observe(el);
     window.addEventListener("resize", setVar);
     return () => {
+      cancelAnimationFrame(rafId);
       ro.disconnect();
       window.removeEventListener("resize", setVar);
     };
