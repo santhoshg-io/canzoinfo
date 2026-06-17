@@ -1,10 +1,8 @@
 import { ArrowRight } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 const StickyCTA = () => {
-  const navigate = useNavigate();
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -32,12 +30,14 @@ const StickyCTA = () => {
               Smart campus food, in seconds.
             </p>
           </div>
-          <button
-            onClick={() => navigate("/student")}
+          <a
+            href="https://play.google.com/store/apps/details?id=canzo.in"
+            target="_blank"
+            rel="noopener noreferrer"
             className="inline-flex items-center gap-1.5 h-12 px-5 rounded-full bg-accent text-accent-foreground font-semibold text-sm shadow-md hover:bg-amber-hover transition-colors whitespace-nowrap"
           >
             Get Started <ArrowRight className="w-4 h-4" />
-          </button>
+          </a>
         </motion.div>
       )}
     </AnimatePresence>

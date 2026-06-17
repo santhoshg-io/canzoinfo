@@ -72,7 +72,9 @@ const Footer = () => {
 
             <div className="mt-5">
               <a
-                href="#"
+                href="https://play.google.com/store/apps/details?id=canzo.in"
+                target="_blank"
+                rel="noopener noreferrer"
                 aria-label="Get it on Google Play"
                 className="flex items-center gap-2 px-3 py-2 rounded-lg border border-foreground/20 bg-foreground/5 hover:bg-foreground/10 transition-colors w-40"
               >
