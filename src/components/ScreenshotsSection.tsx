@@ -136,6 +136,7 @@ const ScreenshotsSection = () => {
         .coverflow-card {
           width: 100%;
           aspect-ratio: 9 / 18;
+          max-height: clamp(380px, 55svh, 540px);
           border-radius: 2rem;
           overflow: hidden;
           background: hsl(var(--card));
