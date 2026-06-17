@@ -10,21 +10,23 @@ import DownloadAppSection from "@/components/DownloadAppSection";
 import CTASection from "@/components/CTASection";
 import Footer from "@/components/Footer";
 import Reveal from "@/components/Reveal";
+import StickyCTA from "@/components/StickyCTA";
 
 const Index = () => {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen pb-24 md:pb-0">
       <BrandStrip />
       <HeroSection />
-      <Reveal><ProblemSolution /></Reveal>
-      <Reveal><FeaturesSection /></Reveal>
-      <Reveal><HowItWorks /></Reveal>
-      <Reveal><EcosystemSection /></Reveal>
-      <Reveal><ScreenshotsSection /></Reveal>
-      <Reveal><OurWorkSection /></Reveal>
-      <Reveal><DownloadAppSection /></Reveal>
-      <Reveal><CTASection /></Reveal>
+      <div className="stack-card" style={{ zIndex: 2 }}><Reveal><ProblemSolution /></Reveal></div>
+      <div className="stack-card" style={{ zIndex: 3 }}><Reveal><FeaturesSection /></Reveal></div>
+      <div className="stack-card" style={{ zIndex: 4 }}><Reveal><HowItWorks /></Reveal></div>
+      <div className="stack-card" style={{ zIndex: 5 }}><Reveal><EcosystemSection /></Reveal></div>
+      <div className="stack-card" style={{ zIndex: 6 }}><Reveal><ScreenshotsSection /></Reveal></div>
+      <div className="stack-card" style={{ zIndex: 7 }}><Reveal><OurWorkSection /></Reveal></div>
+      <div className="stack-card" style={{ zIndex: 8 }}><Reveal><DownloadAppSection /></Reveal></div>
+      <div className="stack-card" style={{ zIndex: 9 }}><Reveal><CTASection /></Reveal></div>
       <Footer />
+      <StickyCTA />
     </div>
   );
 };
