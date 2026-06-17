@@ -20,7 +20,7 @@ const StickyCTA = () => {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: "spring", stiffness: 260, damping: 26 }}
-          className="sticky-cta"
+          className="sticky-cta md:hidden"
         >
           <div className="flex-1 min-w-0">
             <p className="font-display font-bold text-sm text-foreground leading-tight truncate">
