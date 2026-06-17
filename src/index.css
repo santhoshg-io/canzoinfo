@@ -188,6 +188,7 @@
     .stack-card + .stack-card { margin-top: -24px; }
     .stack-card.stack-card-combined {
       background: transparent !important;
+      position: relative !important;
     }
   }
 
