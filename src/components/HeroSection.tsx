@@ -9,6 +9,7 @@ import cardCanteen from "@/assets/card-canteen.jpg";
 import cardInternship from "@/assets/card-internship.jpg";
 
 import StackCard from "./StackCard";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const ctaAnim = {
   initial: { opacity: 0, scale: 0.9 },
@@ -52,6 +53,7 @@ type Phase = "intro" | "playing" | "outro";
 const HeroSection = () => {
   const navigate = useNavigate();
   const ref = useRef(null);
+  const isMobile = useIsMobile();
   
   const [time, setTime] = useState(new Date());
   const [phase, setPhase] = useState<Phase>("intro");
@@ -144,7 +146,7 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: showLogo ? 1 : 0, y: showLogo ? 0 : 30 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
-              className="relative h-24 md:h-32 mb-1 aspect-[1778/634] pointer-events-auto"
+              className="relative h-32 md:h-44 lg:h-52 mb-3 aspect-[1778/634] pointer-events-auto"
             >
               <img 
                 src={canzoLogo} 
@@ -202,7 +204,7 @@ const HeroSection = () => {
               initial={{ opacity: 0, y: 30 }}
               animate={{ 
                 opacity: 1, 
-                y: showVideo ? "32vh" : "0vh" 
+                y: showVideo ? (isMobile ? "32vh" : "15vh") : "0vh" 
               }}
               transition={{ 
                 y: { type: "spring", stiffness: 70, damping: 14 },
