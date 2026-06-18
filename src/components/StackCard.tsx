@@ -26,13 +26,8 @@ const StackCard: React.FC<StackCardProps> = ({ children, zIndex, className = "" 
         const height = card.offsetHeight;
         const windowHeight = window.innerHeight;
 
-        // If the card is taller than the screen, stick when its bottom reaches the screen's bottom.
-        // If it's shorter, stick immediately at the top.
-        if (height > windowHeight) {
-          card.style.top = `${windowHeight - height}px`;
-        } else {
-          card.style.top = "0px";
-        }
+        // Stick such that the bottom of the card is exactly at 50% of the mobile screen height
+        card.style.top = `${windowHeight * 0.5 - height}px`;
       } else {
         card.style.top = "";
       }
@@ -56,24 +51,23 @@ const StackCard: React.FC<StackCardProps> = ({ children, zIndex, className = "" 
         const nextRect = nextCard.getBoundingClientRect();
         const windowHeight = window.innerHeight;
         
-        // The animation range: starts when next card enters bottom of screen (100% height)
-        // and completes when next card reaches 50% of the screen height.
-        const startScrollY = windowHeight;
-        const endScrollY = windowHeight * 0.5;
+        // The animation starts when the next card's top reaches 50% of screen height (bottom of stuck card)
+        // and completes when next card reaches the top of the screen (0px).
+        const startScrollY = windowHeight * 0.5;
+        const endScrollY = 0;
 
         if (nextRect.top < startScrollY) {
-          // Calculate progress from 0 (at bottom of screen) to 1 (at 50% of screen height)
+          // Calculate progress from 0 (at 50% screen height) to 1 (at top of screen)
           const totalDistance = startScrollY - endScrollY;
           const currentDistance = startScrollY - nextRect.top;
           const progress = Math.max(0, Math.min(1, currentDistance / totalDistance));
           
-          // Map progress to scale, brightness, and blur
+          // Map progress to scale and brightness (no blur)
           const newScale = 1 - (progress * 0.08); // Scales down from 1.0 to 0.92
           const brightness = 1 - (progress * 0.5); // Dims from 1.0 to 0.5 brightness
-          const blur = progress * 3; // Blurs from 0px to 3px
 
           card.style.transform = `scale(${newScale})`;
-          card.style.filter = `brightness(${brightness}) blur(${blur}px)`;
+          card.style.filter = `brightness(${brightness})`;
           card.style.transformOrigin = "top center";
           card.style.willChange = "transform, filter";
         } else {
