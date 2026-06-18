@@ -90,23 +90,22 @@ const CanteenPartnerPage = () => {
     const formData = new FormData();
 
     // FormSubmit.co special fields
-    formData.append("_subject", `New Partner Application: ${values.canteenName} – ${values.ownerName}`);
+    formData.append("_subject", `New Partner Application: ${values.canteenName} - ${values.ownerName}`);
     formData.append("_captcha", "false");
     formData.append("_template", "table");
-    formData.append("_replyto", values.email); // explicit reply-to
 
-    // Form fields (lowercase, no duplicates, no spaces)
-    formData.append("name", values.ownerName);
-    formData.append("phone", values.phone);
-    formData.append("email", values.email);
-    formData.append("canteen", values.canteenName);
-    formData.append("college", values.collegeName);
-    formData.append("city", values.city);
-    formData.append("outlets", values.outletCount);
-    formData.append("daily_orders", values.dailyOrders);
+    // Form fields (Capitalized, matching Careers page standard)
+    formData.append("Name", values.ownerName);
+    formData.append("Phone", values.phone);
+    formData.append("Email", values.email);
+    formData.append("Canteen Name", values.canteenName);
+    formData.append("College Name", values.collegeName);
+    formData.append("City", values.city);
+    formData.append("Outlets", values.outletCount);
+    formData.append("Daily Orders", values.dailyOrders);
 
     if (values.presentation) {
-      formData.append("presentation_link", values.presentation);
+      formData.append("Presentation Link", values.presentation);
     }
 
     try {
@@ -359,7 +358,7 @@ const CanteenPartnerPage = () => {
                                   </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                  <SelectItem value="<50">Less than 50</SelectItem>
+                                  <SelectItem value="Less than 50">Less than 50</SelectItem>
                                   <SelectItem value="50-150">50–150 orders</SelectItem>
                                   <SelectItem value="150-300">150–300 orders</SelectItem>
                                   <SelectItem value="300+">300+ orders</SelectItem>
