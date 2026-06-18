@@ -83,7 +83,7 @@ const CareersPage = () => {
           </Link>
 
           {/* Hero */}
-          <motion.div {...fadeUp} className="max-w-2xl mb-16">
+          <motion.div {...fadeUp} className="max-w-2xl mx-auto mb-16 text-center">
             <span className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-accent/15 text-accent-foreground text-xs font-semibold tracking-wide uppercase border border-accent/20 mb-4">
               💼 Join Our Team
             </span>
@@ -97,11 +97,11 @@ const CareersPage = () => {
           </motion.div>
 
           {/* Open Roles Section */}
-          <motion.h2 {...fadeUp} className="text-2xl sm:text-3xl font-display font-bold mb-8">
+          <motion.h2 {...fadeUp} className="text-2xl sm:text-3xl font-display font-bold mb-8 text-center">
             Current <span className="text-gradient">Openings</span>
           </motion.h2>
 
-          <div className="max-w-4xl flex flex-col gap-4 mb-20">
+          <div className="max-w-4xl mx-auto flex flex-col gap-4 mb-20">
             {jobs.map((job, i) => {
               const isSelected = selectedJob === job.id;
               
