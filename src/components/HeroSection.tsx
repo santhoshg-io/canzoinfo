@@ -66,7 +66,7 @@ const HeroSection = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // INTRO → PLAYING: after 3 seconds, start video
+  // INTRO → PLAYING: after 2 seconds, start video
   useEffect(() => {
     const timer = setTimeout(() => {
       setPhase("playing");
@@ -74,7 +74,7 @@ const HeroSection = () => {
         videoRef.current.currentTime = 0;
         videoRef.current.play().catch(() => {});
       }
-    }, 3000);
+    }, 2000);
     return () => clearTimeout(timer);
   }, []); // runs once on mount
 
@@ -87,7 +87,7 @@ const HeroSection = () => {
           videoRef.current.currentTime = 0;
           videoRef.current.play().catch(() => {});
         }
-      }, 5000);
+      }, 3000);
       return () => clearTimeout(timer);
     }
   }, [phase]);
