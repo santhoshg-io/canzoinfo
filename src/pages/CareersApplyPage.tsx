@@ -115,7 +115,8 @@ const CareersApplyPage = () => {
     }
 
     try {
-      const response = await fetch("https://formsubmit.co/tamiltamilboss090@gmail.com", {
+      // FormSubmit requires the /ajax/ endpoint when using fetch/React
+      const response = await fetch("https://formsubmit.co/ajax/tamiltamilboss090@gmail.com", {
         method: "POST",
         headers: { Accept: "application/json" },
         body: formData,
