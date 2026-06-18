@@ -147,7 +147,11 @@ const HeroSection = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: showLogo ? 1 : 0, y: showLogo ? 0 : 30 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
-                className="relative w-full max-w-lg md:max-w-2xl px-4 mb-3 aspect-[1778/634] pointer-events-auto"
+                className="relative mb-3 pointer-events-auto w-full"
+                style={{ 
+                  maxWidth: "min(90vw, min(700px, calc(25vh * 2.8)))", 
+                  aspectRatio: "1778/634" 
+                }}
               >
                 <img 
                   src={canzoLogo} 
@@ -178,7 +182,8 @@ const HeroSection = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: showLogo ? 1 : 0, y: showLogo ? 0 : 30 }}
                 transition={{ duration: 0.8, delay: 0.1, ease: "easeOut" }}
-                className="text-display font-display font-bold tracking-tight mb-2 leading-tight pointer-events-auto"
+                className="font-display font-bold tracking-tight mb-2 leading-tight pointer-events-auto"
+                style={{ fontSize: "clamp(1.75rem, min(6vw, 7vh), 4.5rem)" }}
               >
                 <span 
                   className={`transition-colors duration-1000 ${showVideo ? "text-slate-200" : "text-[#1e293b]"}`}
@@ -207,10 +212,10 @@ const HeroSection = () => {
 
             {/* Buttons */}
             <motion.div 
-              initial={{ opacity: 0, bottom: "16vh" }}
+              initial={{ opacity: 0, bottom: "20vh" }}
               animate={{ 
                 opacity: 1, 
-                bottom: showVideo ? "8vh" : "16vh" 
+                bottom: showVideo ? "10vh" : "20vh" 
               }}
               transition={{ 
                 bottom: { type: "spring", stiffness: 70, damping: 14 },
