@@ -4,6 +4,7 @@ import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import canzoLogo from "@/assets/logohero.png";
 import heroVideo from "@/assets/hero10.mp4";
+import heroBg from "@/assets/hero-bg.jpg";
 import cardStudents from "@/assets/card-students.jpg";
 import cardCanteen from "@/assets/card-canteen.jpg";
 import cardInternship from "@/assets/card-internship.jpg";
@@ -95,6 +96,7 @@ const HeroSection = () => {
               loop 
               muted 
               playsInline
+              poster={heroBg}
               onTimeUpdate={handleTimeUpdate}
               className="w-full h-full object-cover opacity-70"
             />
