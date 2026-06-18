@@ -55,17 +55,22 @@ const StackCard: React.FC<StackCardProps> = ({ children, zIndex, className = "" 
       if (nextCard) {
         const nextRect = nextCard.getBoundingClientRect();
         const windowHeight = window.innerHeight;
-        // Start the effect when the bottom of the section comes up to 50% of the viewport (nextRect.top is the top of the next card)
-        const threshold = windowHeight * 0.5;
+        
+        // The animation range: starts when next card enters bottom of screen (100% height)
+        // and completes when next card reaches 50% of the screen height.
+        const startScrollY = windowHeight;
+        const endScrollY = windowHeight * 0.5;
 
-        if (nextRect.top < threshold) {
-          // Calculate progress from 1 (at threshold) to 0 (at 0 or below)
-          const progress = Math.max(0, Math.min(1, nextRect.top / threshold));
+        if (nextRect.top < startScrollY) {
+          // Calculate progress from 0 (at bottom of screen) to 1 (at 50% of screen height)
+          const totalDistance = startScrollY - endScrollY;
+          const currentDistance = startScrollY - nextRect.top;
+          const progress = Math.max(0, Math.min(1, currentDistance / totalDistance));
           
           // Map progress to scale, brightness, and blur
-          const newScale = 0.92 + (progress * 0.08); // Scales down to 0.92
-          const brightness = 0.5 + (progress * 0.5); // Dims to 50% brightness
-          const blur = (1 - progress) * 3; // Blurs up to 3px
+          const newScale = 1 - (progress * 0.08); // Scales down from 1.0 to 0.92
+          const brightness = 1 - (progress * 0.5); // Dims from 1.0 to 0.5 brightness
+          const blur = progress * 3; // Blurs from 0px to 3px
 
           card.style.transform = `scale(${newScale})`;
           card.style.filter = `brightness(${brightness}) blur(${blur}px)`;
