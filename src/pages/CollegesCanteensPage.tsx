@@ -49,15 +49,49 @@ const CollegesCanteensPage = () => {
   const [formData, setFormData] = useState({ name: "", institution: "", phone: "", email: "", message: "" });
   const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSubmitting(true);
-    // Simulate submission
-    setTimeout(() => {
-      toast({ title: "Request Submitted!", description: "We'll get back to you soon." });
-      setFormData({ name: "", institution: "", phone: "", email: "", message: "" });
+    
+    const payload = {
+      _subject: `New Partnership Request: ${formData.institution} - ${formData.name}`,
+      _captcha: "false",
+      _template: "table",
+      Name: formData.name,
+      "Institution / Canteen": formData.institution,
+      Phone: formData.phone,
+      email: formData.email,
+      ...(formData.message ? { Message: formData.message } : {})
+    };
+
+    try {
+      const response = await fetch("https://formsubmit.co/ajax/tamiltamilboss090@gmail.com", {
+        method: "POST",
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        const data = await response.json().catch(() => ({}));
+        if (data.success === "false" || data.success === false) {
+          toast({ variant: "destructive", title: "Submission Failed", description: data.message || "FormSubmit rejected the submission." });
+        } else {
+          toast({ title: "Request Submitted!", description: "We'll get back to you soon." });
+          setFormData({ name: "", institution: "", phone: "", email: "", message: "" });
+        }
+      } else {
+        const data = await response.json().catch(() => ({}));
+        toast({ variant: "destructive", title: "Submission Failed", description: data.message || "Something went wrong. Please try again." });
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast({ variant: "destructive", title: "Error", description: "Failed to connect to the server. Please check your internet connection." });
+    } finally {
       setSubmitting(false);
-    }, 1000);
+    }
   };
 
   return (
