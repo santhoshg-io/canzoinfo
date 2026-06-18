@@ -44,9 +44,9 @@ const categories = [
 ];
 
 // Phase state machine:
-// "intro"   → 0–3s: logo visible, video hidden (initial splash)
+// "intro"   → 0–2s: logo visible, video hidden (initial splash)
 // "playing" → video playing, logo hidden
-// "outro"   → video ended: logo visible for 5s, then loop back to playing
+// "outro"   → video ended: logo visible for 3s, then loop back to playing
 type Phase = "intro" | "playing" | "outro";
 
 const HeroSection = () => {
@@ -78,7 +78,7 @@ const HeroSection = () => {
     return () => clearTimeout(timer);
   }, []); // runs once on mount
 
-  // OUTRO → PLAYING: after 5 seconds of outro, replay video
+  // OUTRO → PLAYING: after 3 seconds of outro, replay video
   useEffect(() => {
     if (phase === "outro") {
       const timer = setTimeout(() => {
