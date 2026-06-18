@@ -86,7 +86,7 @@ const ScreenshotsSection = () => {
             stretch: 0,
             depth: 200,
             modifier: 1.2,
-            scale: 0.95,
+            scale: 0.85,
             slideShadows: false,
           }}
 
@@ -102,7 +102,6 @@ const ScreenshotsSection = () => {
                   loading="eager"
                   decoding="sync"
                   draggable={false}
-                  style={{ imageRendering: "high-quality" }}
                 />
               </div>
               <p className="mt-5 text-center text-sm font-medium text-muted-foreground">
@@ -129,7 +128,7 @@ const ScreenshotsSection = () => {
           transform-style: preserve-3d;
         }
         .coverflow-slide {
-          width: clamp(220px, 28vw, 320px);
+          width: clamp(260px, 32vw, 380px);
           opacity: 0.7;
           transition: opacity 900ms cubic-bezier(0.22, 1, 0.36, 1), filter 900ms cubic-bezier(0.22, 1, 0.36, 1);
           transform-style: preserve-3d;
@@ -142,29 +141,21 @@ const ScreenshotsSection = () => {
           background: hsl(var(--card));
           border: 1px solid hsl(var(--border));
           box-shadow: 0 10px 30px -10px rgba(0,0,0,0.25);
-          transform: scale(0.9);
-          transform-origin: center center;
-          transition: transform 1100ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 1100ms cubic-bezier(0.22, 1, 0.36, 1);
-          will-change: transform;
-          image-rendering: high-quality;
-          -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
+          transition: box-shadow 1100ms cubic-bezier(0.22, 1, 0.36, 1);
         }
         .coverflow-card img {
           display: block;
           width: 100%;
           height: auto;
-          image-rendering: high-quality;
-          -webkit-backface-visibility: hidden;
         }
         @media (min-width: 1024px) {
           .coverflow-slide {
-            width: clamp(200px, 18vw, 260px);
+            width: clamp(240px, 22vw, 320px);
           }
         }
         @media (min-width: 768px) and (max-width: 1023px) {
           .coverflow-slide {
-            width: clamp(200px, 24vw, 280px);
+            width: clamp(240px, 28vw, 340px);
           }
         }
         .canzo-coverflow .swiper-wrapper {
@@ -196,7 +187,6 @@ const ScreenshotsSection = () => {
           filter: none;
         }
         .canzo-coverflow .swiper-slide-active .coverflow-card {
-          transform: scale(1.15);
           box-shadow: 0 30px 60px -20px rgba(0,0,0,0.45), 0 0 0 1px hsl(var(--border));
         }
       `}</style>

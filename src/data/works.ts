@@ -54,7 +54,7 @@ export const works: Work[] = [
     category: "Mentorship",
     thumbnail: IMG.threeinkg,
     hero: IMG.threeinkg,
-    gallery: [IMG.kg1, IMG.kg2, IMG.kg3, IMG.certificate, IMG.certiv, IMG.threeinkg],
+    gallery: [IMG.kg2, IMG.kg3, IMG.certiv, IMG.threeinkg],
     stats: [
       { label: "Hackathon", value: "30hr" },
       { label: "Level", value: "National" },

@@ -37,6 +37,7 @@ const navLinks = [
   { label: "Careers", href: "/careers" },
   { label: "About Us", href: "/about" },
   { label: "Contact Us", href: "mailto:info@canzo.in" },
+  { label: "Footer", href: "#footer" },
 ];
 
 const Navbar = () => {

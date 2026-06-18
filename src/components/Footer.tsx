@@ -12,7 +12,7 @@ const LOCATION_TEXT =
 
 const Footer = () => {
   return (
-    <footer className="py-[clamp(2.5rem,4vw,4rem)] section-dark border-t border-foreground/10">
+    <footer id="footer" className="py-[clamp(2.5rem,4vw,4rem)] section-dark border-t border-foreground/10">
       <div className="container">
         <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-[var(--space-gap)] items-start">
 

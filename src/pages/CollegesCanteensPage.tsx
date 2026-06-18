@@ -1,9 +1,10 @@
 import { motion } from "framer-motion";
-import { ArrowLeft, School, Building2, Shield, TrendingUp, LayoutDashboard, Users, CheckCircle, Clock, Send } from "lucide-react";
+import { ArrowLeft, School, Building2, Shield, TrendingUp, LayoutDashboard, Users, CheckCircle, Clock, Send, CheckCircle2 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
 
 const liveColleges = [
   "Hindusthan College of Arts and Science",
@@ -48,6 +49,7 @@ const CollegesCanteensPage = () => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({ name: "", institution: "", phone: "", email: "", message: "" });
   const [submitting, setSubmitting] = useState(false);
+  const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,8 +81,7 @@ const CollegesCanteensPage = () => {
         if (data.success === "false" || data.success === false) {
           toast({ variant: "destructive", title: "Submission Failed", description: data.message || "FormSubmit rejected the submission." });
         } else {
-          toast({ title: "Request Submitted!", description: "We'll get back to you soon." });
-          setFormData({ name: "", institution: "", phone: "", email: "", message: "" });
+          setIsSubmitSuccess(true);
         }
       } else {
         const data = await response.json().catch(() => ({}));
@@ -190,6 +191,35 @@ const CollegesCanteensPage = () => {
 
           {/* Partner Form */}
           <motion.div {...fadeUp} id="partner-form" className="max-w-xl mx-auto">
+            {isSubmitSuccess ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="p-8 sm:p-12 rounded-2xl bg-accent/10 border border-accent/20 text-center"
+              >
+                <CheckCircle2 className="w-14 h-14 text-accent mx-auto mb-4" />
+                <h2 className="text-2xl font-display font-bold mb-2">Request Submitted!</h2>
+                <p className="text-muted-foreground mb-6">
+                  Thank you for your interest! Our team will review your details and reach out to you within 24 hours.
+                </p>
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+                  <Link to="/">
+                    <Button variant="outline" className="rounded-full">
+                      Back to Home
+                    </Button>
+                  </Link>
+                  <Button
+                    onClick={() => {
+                      setFormData({ name: "", institution: "", phone: "", email: "", message: "" });
+                      setIsSubmitSuccess(false);
+                    }}
+                    className="rounded-full bg-accent text-accent-foreground hover:bg-amber-hover"
+                  >
+                    Submit Another Request
+                  </Button>
+                </div>
+              </motion.div>
+            ) : (
             <div className="p-8 sm:p-10 rounded-2xl bg-card border border-border">
               <h2 className="text-2xl font-display font-bold text-foreground mb-2">Become a Partner</h2>
               <p className="text-sm text-muted-foreground mb-8">Interested in bringing Canzo to your campus or canteen? Share your details and our team will reach out.</p>
@@ -258,6 +288,7 @@ const CollegesCanteensPage = () => {
                 </button>
               </form>
             </div>
+            )}
           </motion.div>
         </div>
       </section>

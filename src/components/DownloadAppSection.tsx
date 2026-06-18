@@ -89,7 +89,7 @@ const DownloadAppSection = () => {
   return (
     <section
       id="download-app"
-      className="flex items-center py-section bg-[#ffe1e6] md:bg-yellow-500/10"
+      className="flex items-center py-section bg-accent/10 md:bg-yellow-500/10"
     >
       <div className="container px-0 md:px-4">
         <motion.div
@@ -100,7 +100,7 @@ const DownloadAppSection = () => {
           className="relative overflow-hidden md:rounded-3xl md:bg-card md:border border-border md:px-[clamp(1.25rem,4vw,4rem)] md:py-[clamp(2.5rem,5vw,4rem)] w-full"
         >
           {/* Mobile: completely custom layout matching the reference image */}
-          <div className="md:hidden flex flex-col w-full bg-[#ffe1e6]">
+          <div className="md:hidden flex flex-col w-full bg-accent/10">
             {/* Top Pink Gradient with overlapping phones */}
             <div className="w-full pt-12 pb-4 flex justify-center items-end h-[380px]">
               <div className="relative w-[280px] h-full">
@@ -120,7 +120,7 @@ const DownloadAppSection = () => {
               <h2 className="text-4xl font-display font-bold text-black tracking-tight mb-4">
                 Download the app now!
               </h2>
-              <p className="text-[#596677] text-[16px] max-w-[280px] leading-[1.4] mb-8">
+              <p className="text-muted-foreground text-[16px] max-w-[280px] leading-[1.4] mb-8">
                 Experience seamless food ordering<br />with the Canzo app
               </p>
               

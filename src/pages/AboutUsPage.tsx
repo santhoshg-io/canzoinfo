@@ -5,8 +5,8 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import StackCard from "@/components/StackCard";
 
-import ceoVikramImg from "@/assets/ceo-vikram.jpeg";
-import jintoImg from "@/assets/jinto.jpeg";
+import ceoVikramImg from "@/assets/ceo-vikram.png";
+import jintoImg from "@/assets/jinto.png";
 import ajithImg from "@/assets/ajith.jpeg";
 
 const fadeUp = {
@@ -93,8 +93,8 @@ const AboutUsPage = () => {
               {...fadeUp}
               className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20"
             >
-              <div className="w-full lg:w-5/12 aspect-[4/5] relative flex items-center justify-center">
-                <img src={ceoVikramImg} alt="Vikram - Founder & CEO" className="w-full h-full object-contain mix-blend-multiply transition-transform duration-700 hover:scale-105" />
+              <div className="w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80 mx-auto rounded-full overflow-hidden relative flex items-center justify-center border-4 border-accent/20 bg-accent/5 shrink-0">
+                <img src={ceoVikramImg} alt="Vikram - Founder & CEO" className="w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105" />
               </div>
               <div className="w-full lg:w-7/12">
                 <h3 className="text-3xl sm:text-4xl font-display font-bold mb-2">Vikram</h3>
@@ -122,8 +122,8 @@ const AboutUsPage = () => {
               {...fadeUp}
               className="flex flex-col lg:flex-row-reverse items-center gap-12 lg:gap-20"
             >
-              <div className="w-full lg:w-5/12 aspect-[4/5] relative flex items-center justify-center">
-                <img src={jintoImg} alt="Jinto - Head of Digital Marketing & Growth" className="w-full h-full object-contain mix-blend-multiply transition-transform duration-700 hover:scale-105" />
+              <div className="w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80 mx-auto rounded-full overflow-hidden relative flex items-center justify-center border-4 border-accent/20 bg-accent/5 shrink-0">
+                <img src={jintoImg} alt="Jinto - Head of Digital Marketing & Growth" className="w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105" />
               </div>
               <div className="w-full lg:w-7/12">
                 <h3 className="text-3xl sm:text-4xl font-display font-bold mb-2">Jinto</h3>
@@ -151,8 +151,8 @@ const AboutUsPage = () => {
               {...fadeUp}
               className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20"
             >
-              <div className="w-full lg:w-5/12 aspect-[4/5] relative flex items-center justify-center">
-                <img src={ajithImg} alt="Ajith Kumar - Head of Operations" className="w-full h-full object-contain mix-blend-multiply transition-transform duration-700 hover:scale-105" />
+              <div className="w-64 h-64 sm:w-72 sm:h-72 lg:w-80 lg:h-80 mx-auto rounded-full overflow-hidden relative flex items-center justify-center border-4 border-accent/20 bg-accent/5 shrink-0">
+                <img src={ajithImg} alt="Ajith Kumar - Head of Operations" className="w-full h-full object-cover object-top transition-transform duration-700 hover:scale-105" />
               </div>
               <div className="w-full lg:w-7/12">
                 <h3 className="text-3xl sm:text-4xl font-display font-bold mb-2">Ajith Kumar</h3>

@@ -17,9 +17,7 @@ const ProblemSolution = () => {
               <Clock className="w-4 h-4" />
               The Problem
             </div>
-            <h2 className="text-fluid-h2 font-display font-bold">
-              Long queues waste <span className="text-accent">precious time.</span>
-            </h2>
+            <h2 className="text-fluid-h2 font-display font-bold">A Challenge Faced by <span className="text-accent">Every Student</span></h2>
             <p className="text-fluid-body opacity-80">
               Students spend 15–30 minutes waiting in canteen queues every day. That's hours lost every week — time that could be spent studying, socializing, or just relaxing.
             </p>
