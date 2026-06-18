@@ -12,10 +12,9 @@ const StackCard: React.FC<StackCardProps> = ({ children, zIndex, className = "" 
   useEffect(() => {
     if (!cardRef.current) return;
 
-    const observer = new ResizeObserver(() => {
-      const card = cardRef.current;
-      if (!card) return;
+    const card = cardRef.current;
 
+    const updateStickyTop = () => {
       // If it's the combined card, we don't want to calculate sticky top because it uses relative positioning.
       if (card.classList.contains("stack-card-combined")) {
         card.style.top = "";
@@ -37,11 +36,67 @@ const StackCard: React.FC<StackCardProps> = ({ children, zIndex, className = "" 
       } else {
         card.style.top = "";
       }
+    };
+
+    const handleScroll = () => {
+      if (window.innerWidth > 767) {
+        card.style.transform = "";
+        card.style.filter = "";
+        card.style.transformOrigin = "";
+        card.style.willChange = "";
+        return;
+      }
+
+      if (card.classList.contains("stack-card-combined")) {
+        return;
+      }
+
+      const nextCard = card.nextElementSibling as HTMLElement;
+      if (nextCard) {
+        const nextRect = nextCard.getBoundingClientRect();
+        const windowHeight = window.innerHeight;
+        // Start the effect when the bottom of the section comes up to 45% of the viewport (nextRect.top is the top of the next card)
+        const threshold = windowHeight * 0.45;
+
+        if (nextRect.top < threshold) {
+          // Calculate progress from 1 (at threshold) to 0 (at 0 or below)
+          const progress = Math.max(0, Math.min(1, nextRect.top / threshold));
+          
+          // Map progress to scale, brightness, and blur
+          const newScale = 0.93 + (progress * 0.07); // Scales down to 0.93
+          const brightness = 0.5 + (progress * 0.5); // Dims to 50% brightness
+          const blur = (1 - progress) * 3; // Blurs up to 3px
+
+          card.style.transform = `scale(${newScale})`;
+          card.style.filter = `brightness(${brightness}) blur(${blur}px)`;
+          card.style.transformOrigin = "top center";
+          card.style.willChange = "transform, filter";
+        } else {
+          card.style.transform = "";
+          card.style.filter = "";
+          card.style.transformOrigin = "";
+          card.style.willChange = "";
+        }
+      }
+    };
+
+    updateStickyTop();
+    handleScroll();
+
+    const observer = new ResizeObserver(() => {
+      updateStickyTop();
+      handleScroll();
     });
+    observer.observe(card);
 
-    observer.observe(cardRef.current);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll, { passive: true });
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+    };
   }, []);
 
   return (

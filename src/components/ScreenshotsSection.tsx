@@ -5,7 +5,7 @@ import { EffectCoverflow, Autoplay } from "swiper/modules";
 import type { Swiper as SwiperClass } from "swiper";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
-import web4 from "@/assets/work/web4.jpeg";
+import web4 from "@/assets/work/web4.png";
 import web5 from "@/assets/work/web5.jpeg";
 import web6 from "@/assets/work/web6.jpeg";
 
