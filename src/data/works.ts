@@ -5,7 +5,7 @@ import hindulive from "@/assets/work/hindulive.png";
 import kg1 from "@/assets/work/kg1.JPG";
 import kg2 from "@/assets/work/kg2.JPG";
 import kg3 from "@/assets/work/kg3.JPG";
-import letter from "@/assets/work/letter.jpeg";
+import letter from "@/assets/work/letter.png";
 import letterwp from "@/assets/work/letterwp.jpeg";
 import std1 from "@/assets/work/std1.jpeg";
 import std2 from "@/assets/work/std2.jpeg";
