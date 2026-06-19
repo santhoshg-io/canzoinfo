@@ -14,6 +14,7 @@ import CareersApplyPage from "./pages/CareersApplyPage";
 import AboutUsPage from "./pages/AboutUsPage";
 import NotFound from "./pages/NotFound";
 import Navbar from "./components/Navbar";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <ScrollToTop />
         <div className="min-h-screen flex flex-col">
           <Navbar />
           <main className="flex-1">
