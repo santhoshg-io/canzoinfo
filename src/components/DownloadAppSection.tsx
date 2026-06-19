@@ -200,7 +200,7 @@ const DownloadAppSection = () => {
   return (
     <section
       id="download-app"
-      className="flex items-center py-section bg-accent/10"
+      className="flex items-center py-section bg-[#FFF5F5] md:bg-transparent border-y border-[#FFE4E6] md:border-none"
     >
       <div className="container px-0 md:px-4">
         <motion.div
@@ -208,17 +208,17 @@ const DownloadAppSection = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.15 }}
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="relative overflow-visible md:overflow-hidden md:px-[clamp(1.25rem,4vw,4rem)] md:py-[clamp(2.5rem,5vw,4rem)] w-full"
+          className="relative overflow-visible md:overflow-hidden md:px-0 w-full"
         >
           {/* ── MOBILE LAYOUT ── */}
           <div className="md:hidden flex flex-col w-full">
             {/* 3-phone showcase */}
-            <div className="w-full pt-14 pb-0 overflow-visible">
+            <div className="w-full pt-10 pb-0 overflow-visible">
               <MobilePhoneShowcase />
             </div>
 
             {/* Text + CTA */}
-            <div className="pt-10 pb-16 px-6 text-center flex flex-col items-center relative z-20">
+            <div className="pt-8 pb-12 px-6 text-center flex flex-col items-center relative z-20">
               <h2 className="text-4xl font-display font-bold text-black tracking-tight mb-4">
                 Download the app now!
               </h2>
@@ -234,9 +234,9 @@ const DownloadAppSection = () => {
           {/* ── DESKTOP LAYOUT — Zomato-style half-phone ── */}
           <div className="hidden md:block">
             <div
-              className="relative rounded-[2.5rem] overflow-hidden"
+              className="relative rounded-[2.5rem] overflow-hidden border border-[#FFE4E6] shadow-[0_20px_50px_-20px_rgba(0,0,0,0.06)]"
               style={{
-                background: "linear-gradient(135deg, hsl(var(--accent) / 0.18) 0%, hsl(var(--accent) / 0.08) 100%)",
+                backgroundColor: "#FFF5F5",
                 minHeight: 440,
               }}
             >
