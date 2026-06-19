@@ -231,21 +231,73 @@ const DownloadAppSection = () => {
             </div>
           </div>
 
-          {/* ── DESKTOP LAYOUT (unchanged) ── */}
-          <div className="hidden md:grid grid-cols-2 gap-[var(--space-gap)] items-center">
-            <div>
-              <h2 className="text-fluid-h1 font-display font-bold text-foreground tracking-tight">
-                Download the app now!
-              </h2>
-              <p className="mt-4 text-fluid-body text-muted-foreground max-w-md">
-                Experience seamless campus ordering only on the Canzo app.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-4">
-                <PlayStoreBadge />
+          {/* ── DESKTOP LAYOUT — Zomato-style half-phone ── */}
+          <div className="hidden md:block">
+            <div
+              className="relative rounded-[2.5rem] overflow-hidden"
+              style={{
+                background: "linear-gradient(135deg, hsl(var(--accent) / 0.18) 0%, hsl(var(--accent) / 0.08) 100%)",
+                minHeight: 440,
+              }}
+            >
+              {/* Left: Text + Badge */}
+              <div className="relative z-10 flex flex-col justify-center h-full py-20 pl-20 pr-8 max-w-[55%]">
+                <h2 className="text-5xl lg:text-6xl font-display font-extrabold text-foreground tracking-tight leading-tight mb-6">
+                  Download the app now!
+                </h2>
+                <p className="text-lg lg:text-xl text-muted-foreground max-w-md leading-relaxed mb-10">
+                  Experience seamless campus ordering<br />only on the Canzo app.
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <PlayStoreBadge />
+                </div>
               </div>
-            </div>
-            <div className="relative flex justify-center items-center py-4">
-              <QRPhone />
+
+              {/* Right: Half-phone mockup with QR */}
+              <motion.div
+                initial={{ y: 120, opacity: 0.5 }}
+                whileInView={{ y: 0, opacity: 1 }}
+                viewport={{ once: true, amount: 0.1 }}
+                transition={{ type: "spring", stiffness: 50, damping: 18, delay: 0.15 }}
+                className="absolute right-[8%] lg:right-[12%] top-[40px]"
+                style={{ width: 290, zIndex: 5 }}
+              >
+                <div
+                  className="relative w-full aspect-[9/19] rounded-[2.8rem] bg-gradient-to-b from-neutral-600 via-neutral-800 to-black p-[8px]"
+                  style={{
+                    boxShadow: "-20px 20px 60px rgba(0,0,0,0.25), 0 8px 30px rgba(0,0,0,0.15)",
+                  }}
+                >
+                  {/* Specular highlight */}
+                  <div className="absolute inset-0 rounded-[2.8rem] bg-gradient-to-br from-white/20 via-transparent to-transparent pointer-events-none z-30" />
+
+                  {/* Screen */}
+                  <div className="relative w-full h-full rounded-[2.4rem] bg-white overflow-hidden">
+                    {/* Notch */}
+                    <div
+                      aria-hidden
+                      className="absolute top-3 left-1/2 -translate-x-1/2 h-[22px] w-[85px] rounded-full bg-black z-20 flex items-center justify-end pr-2.5"
+                    >
+                      <span className="h-1.5 w-1.5 rounded-full bg-neutral-700 ring-[2px] ring-neutral-900" />
+                    </div>
+
+                    {/* QR content (positioned starting from top so it's not cut off by the parent card overflow) */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-start px-6 pt-20">
+                      <p className="text-center text-[15px] font-semibold text-neutral-700 leading-snug mb-5">
+                        Scan the QR code to<br />download the app
+                      </p>
+                      <div className="rounded-2xl border-2 border-accent/50 p-3 bg-white shadow-md">
+                        <img
+                          src={QR_URL}
+                          alt="Scan to download Canzo on Google Play"
+                          className="w-[130px] h-[130px] block"
+                          loading="lazy"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             </div>
           </div>
         </motion.div>
