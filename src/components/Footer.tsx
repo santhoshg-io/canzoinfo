@@ -93,7 +93,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-12 pt-6 border-t border-foreground/10 text-center text-xs opacity-40">
+        <div className="mt-12 pt-6 pb-24 md:pb-0 border-t border-foreground/10 text-center text-xs opacity-40">
           © {new Date().getFullYear()} Canzo. All rights reserved.
         </div>
       </div>

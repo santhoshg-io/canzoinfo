@@ -15,7 +15,7 @@ import StackCard from "@/components/StackCard";
 
 const Index = () => {
   return (
-    <div className="min-h-screen pb-24 md:pb-0">
+    <div className="min-h-screen pb-0">
       <HeroSection />
       <StackCard zIndex={2}><Reveal><ProblemSolution /></Reveal></StackCard>
       <StackCard zIndex={3}><Reveal><FeaturesSection /></Reveal></StackCard>
