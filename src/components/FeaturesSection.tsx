@@ -60,15 +60,14 @@ const FeaturesSection = () => {
                   ? { scale: 1.08, y: -12 }
                   : { scale: 1, y: 0 }
               }
-              whileHover={{ y: -16, scale: 1.10, transition: { duration: 0.2 } }}
-              className={`p-6 rounded-2xl bg-card border transition-all duration-500 group cursor-default ${
+              className={`p-6 rounded-2xl bg-card border transition-all duration-500 cursor-default ${
                 activeIndex === i
                   ? "border-accent glow-amber shadow-lg"
-                  : "border-border hover:border-accent/40"
+                  : "border-border"
               }`}
             >
               <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-colors duration-500 ${
-                activeIndex === i ? "bg-accent/25" : "bg-accent/15 group-hover:bg-accent/25"
+                activeIndex === i ? "bg-accent/25" : "bg-accent/15"
               }`}>
                 <f.icon className="w-6 h-6 text-accent" />
               </div>
