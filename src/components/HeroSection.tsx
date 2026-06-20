@@ -290,9 +290,7 @@ const HeroSection = () => {
                 transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
                 className="mt-5 text-fluid-body text-accent-foreground/80 max-w-2xl mx-auto"
               >
-                Canzo is a smart campus food platform that connects students,
-                canteen partners & colleges — making ordering, managing, and
-                dining effortless.
+                Canzo is a smart campus food pre-ordering platform that digitizes college canteens and enhances the student dining experience. By enabling students to order in advance, Canzo reduces waiting time, improves operational efficiency, and helps create a smarter campus ecosystem.
               </motion.p>
             </div>
           </div>
