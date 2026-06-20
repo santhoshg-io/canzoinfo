@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, ArrowLeft, Users, Clock, ShoppingBag, CreditCard, Bell, Star } from "lucide-react";
 import { Link } from "react-router-dom";
 import Footer from "@/components/Footer";
+import AnimatedCounter from "@/components/ui/AnimatedCounter";
 
 const stats = [
   { label: "Active Students", value: "600+", icon: Users, note: undefined },
@@ -9,6 +10,7 @@ const stats = [
   { label: "Orders / Day", value: "100+", icon: ShoppingBag, note: undefined },
   { label: "Satisfaction Rate", value: "4.8★", icon: Star, note: undefined },
 ];
+
 
 const features = [
   { icon: ShoppingBag, title: "Browse & Order", desc: "Explore menus from all canteens on campus and place orders in seconds — no more standing in queues." },
@@ -46,7 +48,7 @@ const StudentPage = () => (
             <span className="text-gradient">for students?</span>
           </h1>
           <p className="text-lg text-muted-foreground leading-relaxed">
-            Canzo is your campus food companion built for students who want faster, simpler food ordering on campus. Browse menus, place orders in seconds, skip long queues, and use your break time for classes, friends, and campus life instead of waiting in line.
+            Canzo is designed to simplify campus dining by enabling students to pre-order meals from their college canteen. By reducing wait times and eliminating long queues, Canzo helps students make the most of their valuable break time. Whether it's attending classes, connecting with friends, or participating in campus activities, students can focus on what matters most while enjoying a faster and more convenient dining experience.
           </p>
         </motion.div>
 
@@ -55,7 +57,9 @@ const StudentPage = () => (
           {stats.map((s) => (
             <div key={s.label} className="p-6 rounded-2xl bg-card border border-border text-center">
               <s.icon className="w-6 h-6 text-accent mx-auto mb-3" />
-              <div className="text-2xl sm:text-3xl font-display font-bold text-foreground">{s.value}</div>
+              <div className="text-2xl sm:text-3xl font-display font-bold text-foreground">
+                <AnimatedCounter value={s.value} />
+              </div>
               <div className="text-xs text-muted-foreground mt-1">{s.label}</div>
               {s.note && (
                 <div className="text-[10px] text-accent mt-1">{s.note}</div>

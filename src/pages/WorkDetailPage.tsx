@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeft, ArrowRight, X, ChevronLeft } from "lucide-react";
 import Footer from "@/components/Footer";
 import { getWork, getAdjacent } from "@/data/works";
+import AnimatedCounter from "@/components/ui/AnimatedCounter";
 
 const WorkDetailPage = () => {
   const { slug = "" } = useParams();
@@ -83,7 +84,9 @@ const WorkDetailPage = () => {
         >
           {work.stats.map((s) => (
             <div key={s.label} className="text-center px-2">
-              <div className="text-2xl sm:text-3xl font-display font-bold text-accent">{s.value}</div>
+              <div className="text-2xl sm:text-3xl font-display font-bold text-accent">
+                <AnimatedCounter value={s.value} />
+              </div>
               <div className="text-[11px] sm:text-xs uppercase tracking-wider text-muted-foreground mt-1">
                 {s.label}
               </div>

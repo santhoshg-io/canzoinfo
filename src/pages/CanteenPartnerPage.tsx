@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Footer from "@/components/Footer";
+import AnimatedCounter from "@/components/ui/AnimatedCounter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -164,7 +165,9 @@ const CanteenPartnerPage = () => {
             {stats.map((s) => (
               <div key={s.label} className="p-6 rounded-2xl bg-card border border-border text-center">
                 <s.icon className="w-6 h-6 text-accent mx-auto mb-3" />
-                <div className="text-2xl sm:text-3xl font-display font-bold text-foreground">{s.value}</div>
+                <div className="text-2xl sm:text-3xl font-display font-bold text-foreground">
+                  <AnimatedCounter value={s.value} />
+                </div>
                 <div className="text-xs text-muted-foreground mt-1">{s.label}</div>
               </div>
             ))}

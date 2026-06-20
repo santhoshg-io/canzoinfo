@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, ArrowLeft, School, Building2, Shield, TrendingUp, LayoutDashboard, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import Footer from "@/components/Footer";
+import AnimatedCounter from "@/components/ui/AnimatedCounter";
 
 const stats = [
   { label: "Colleges Onboarded", value: "15+", icon: School },
@@ -54,7 +55,9 @@ const CollegePage = () => (
           {stats.map((s) => (
             <div key={s.label} className="p-6 rounded-2xl bg-card border border-border text-center">
               <s.icon className="w-6 h-6 text-accent mx-auto mb-3" />
-              <div className="text-2xl sm:text-3xl font-display font-bold text-foreground">{s.value}</div>
+              <div className="text-2xl sm:text-3xl font-display font-bold text-foreground">
+                <AnimatedCounter value={s.value} />
+              </div>
               <div className="text-xs text-muted-foreground mt-1">{s.label}</div>
             </div>
           ))}
