@@ -47,13 +47,13 @@ const features = [
 const formSchema = z.object({
   ownerName: z.string().min(2, "Owner name is required").max(100),
   canteenName: z.string().min(2, "Canteen name is required").max(200),
-  phone: z.string().min(10, "Enter a valid phone number").max(15),
+  phone: z.string().regex(/^\d{10}$/, "Enter a valid mobile number"),
   email: z.string().email("Enter a valid email address").max(255),
   collegeName: z.string().min(2, "College / Institution name is required").max(200),
   city: z.string().min(2, "City is required").max(100),
   outletCount: z.string().min(1, "Please select number of outlets"),
   dailyOrders: z.string().min(1, "Please select daily order volume"),
-  presentation: z.string().url("Please enter a valid URL").optional().or(z.literal("")),
+  presentation: z.string().url("Please enter a valid URL").min(1, "Presentation link is required"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -269,7 +269,7 @@ const CanteenPartnerPage = () => {
                             <FormItem>
                               <FormLabel>Phone Number <span className="text-destructive">*</span></FormLabel>
                               <FormControl>
-                                <Input type="tel" placeholder="+91 98765 43210" {...field} />
+                                <Input type="text" placeholder="9876543210" inputMode="numeric" pattern="[0-9]{10}" maxLength={10} {...field} />
                               </FormControl>
                               <FormMessage />
                             </FormItem>
@@ -383,7 +383,7 @@ const CanteenPartnerPage = () => {
                       name="presentation"
                       render={({ field }) => (
                         <FormItem className="space-y-3">
-                          <FormLabel>Presentation About Yourself Link (Optional)</FormLabel>
+                          <FormLabel>Presentation About Yourself Link <span className="text-destructive">*</span></FormLabel>
                           <FormControl>
                             <Input type="url" placeholder="https://drive.google.com/..." {...field} />
                           </FormControl>

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import canzoLogo from "@/assets/logo4.png";
+import canzoLogo from "@/assets/canzo-logo.png";
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
