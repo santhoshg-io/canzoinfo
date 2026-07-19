@@ -41,7 +41,7 @@ const ScreenshotsSection = () => {
   }, []);
 
   return (
-    <section id="screenshots" className="bg-background min-h-[80svh] flex flex-col justify-center py-section overflow-x-clip">
+    <section id="screenshots" className="bg-background min-h-[100svh] flex flex-col justify-center py-section overflow-x-clip">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -102,6 +102,8 @@ const ScreenshotsSection = () => {
                   loading="eager"
                   decoding="sync"
                   draggable={false}
+                  width="380"
+                  height="823"
                 />
               </div>
               <p className="mt-5 text-center text-sm font-medium text-muted-foreground">

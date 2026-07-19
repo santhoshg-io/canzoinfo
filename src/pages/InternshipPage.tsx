@@ -3,6 +3,9 @@ import { ArrowLeft, ArrowRight, Award, Briefcase, BookOpen, Users, Rocket } from
 import { Link } from "react-router-dom";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { certificates } from "@/data/certificates";
+
+const interns = Object.values(certificates);
 
 const highlights = [
   { icon: Briefcase, title: "Real-World Experience", desc: "Work on live projects that impact thousands of students across campuses." },
@@ -30,7 +33,7 @@ const fadeUp = {
 
 const InternshipPage = () => (
   <div className="min-h-screen">
-    <section className="pt-28 pb-20 relative overflow-hidden">
+    <section className="pt-20 pb-20 relative overflow-hidden">
       <div className="absolute top-10 -right-20 w-[500px] h-[500px] rounded-full bg-accent/15 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 -left-32 w-[300px] h-[300px] rounded-full bg-accent/10 blur-[80px] pointer-events-none" />
 
@@ -78,6 +81,50 @@ const InternshipPage = () => (
           ))}
         </div>
 
+        {/* Our Interns Showcase */}
+        <motion.div {...fadeUp} className="mb-20">
+          <h2 className="text-2xl sm:text-3xl font-display font-bold mb-3 text-center">
+            Meet Our <span className="text-gradient">Interns</span>
+          </h2>
+          <p className="text-sm text-muted-foreground text-center mb-10 max-w-lg mx-auto">
+            These talented students have completed their internship with Canzo and are now part of our alumni network.
+          </p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {interns.map((intern, i) => (
+              <motion.div
+                key={intern.id}
+                {...fadeUp}
+                transition={{ duration: 0.5, delay: i * 0.1 }}
+                className="group relative rounded-2xl bg-card border border-border overflow-hidden hover:border-accent/40 hover:shadow-lg hover:shadow-accent/5 transition-all duration-300"
+              >
+                {/* Accent top bar */}
+                <div className="h-1 bg-gradient-to-r from-accent via-amber-500 to-accent" />
+
+                <div className="p-6 flex items-center gap-4 text-left">
+                  {/* Photo */}
+                  {intern.photoUrl && (
+                    <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-accent/20 shadow-md group-hover:border-accent/50 transition-colors shrink-0">
+                      <img
+                        src={intern.photoUrl}
+                        alt={intern.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                  )}
+
+                  <div>
+                    {/* Name */}
+                    <h3 className="font-display font-bold text-foreground text-base">{intern.name}</h3>
+
+                    {/* College */}
+                    <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{intern.college}</p>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
         {/* FAQs */}
         <motion.div {...fadeUp} className="max-w-2xl mx-auto mb-16">
           <h2 className="text-2xl font-display font-bold text-foreground mb-8 text-center">Frequently Asked Questions</h2>
@@ -91,20 +138,32 @@ const InternshipPage = () => (
           </div>
         </motion.div>
 
-        {/* CTA */}
-        <motion.div {...fadeUp} className="text-center">
-          <Link to="/internship/apply">
-            <Button className="inline-flex items-center gap-2.5 px-10 py-6 rounded-full bg-accent text-accent-foreground font-semibold text-base hover:bg-amber-hover transition-all glow-amber h-auto">
-              Apply Now
-              <ArrowRight className="w-4 h-4" />
-            </Button>
-          </Link>
-          <p className="text-xs text-muted-foreground mt-3">Open the CANZO internship application form</p>
-        </motion.div>
       </div>
     </section>
+
+    {/* Floating CTA Bar */}
+    <div className="fixed bottom-0 inset-x-0 z-40 pointer-events-none pb-4 sm:pb-5 px-4">
+      <div className="max-w-lg mx-auto pointer-events-auto">
+        <div className="flex items-center gap-3 p-2.5 rounded-2xl bg-background/80 backdrop-blur-xl border border-border/60 shadow-2xl shadow-black/20">
+          <Link to="/internship/apply" className="flex-1">
+            <Button className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-accent text-accent-foreground font-semibold text-sm hover:bg-amber-hover transition-all glow-amber h-auto">
+              Apply Now
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Button>
+          </Link>
+          <Link to="/internship/verify" className="flex-1">
+            <Button variant="outline" className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl border-accent/30 hover:border-accent text-foreground hover:bg-accent/5 font-semibold text-sm transition-all h-auto">
+              Verify Certificate
+              <Award className="w-3.5 h-3.5 text-accent" />
+            </Button>
+          </Link>
+        </div>
+      </div>
+    </div>
+
     <Footer />
   </div>
 );
 
 export default InternshipPage;
+

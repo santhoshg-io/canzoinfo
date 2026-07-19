@@ -2,11 +2,11 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import canzoLogo from "@/assets/logohero.png";
+import canzoLogo from "@/assets/logohero.webp";
 import heroVideo from "@/assets/hero1.webm";
-import cardStudents from "@/assets/cardstudent.png";
-import cardCanteen from "@/assets/cardcanteen.png";
-import cardInternship from "@/assets/intership.png";
+import cardStudents from "@/assets/cardstudent.webp";
+import cardCanteen from "@/assets/cardcanteen.webp";
+import cardInternship from "@/assets/intership.webp";
 
 import StackCard from "./StackCard";
 
@@ -157,6 +157,8 @@ const HeroSection = () => {
                   src={canzoLogo} 
                   alt="Canzo Logo" 
                   className="w-full h-full object-contain" 
+                  width="1778"
+                  height="634"
                 />
                 
                 {/* Real-time Clock overlay */}

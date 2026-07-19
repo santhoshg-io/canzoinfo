@@ -8,6 +8,7 @@ import StudentPage from "./pages/StudentPage";
 import CollegesCanteensPage from "./pages/CollegesCanteensPage";
 import InternshipPage from "./pages/InternshipPage";
 import InternshipApplyPage from "./pages/InternshipApplyPage";
+import CertificateVerifyPage from "./pages/CertificateVerifyPage";
 import WorkDetailPage from "./pages/WorkDetailPage";
 import CareersPage from "./pages/CareersPage";
 import CareersApplyPage from "./pages/CareersApplyPage";
@@ -15,6 +16,7 @@ import AboutUsPage from "./pages/AboutUsPage";
 import NotFound from "./pages/NotFound";
 import Navbar from "./components/Navbar";
 import ScrollToTop from "./components/ScrollToTop";
+import { Agentation } from "agentation";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +36,7 @@ const App = () => (
               <Route path="/colleges-canteens" element={<CollegesCanteensPage />} />
               <Route path="/internship" element={<InternshipPage />} />
               <Route path="/internship/apply" element={<InternshipApplyPage />} />
+              <Route path="/internship/verify" element={<CertificateVerifyPage />} />
               <Route path="/careers" element={<CareersPage />} />
               <Route path="/careers/apply" element={<CareersApplyPage />} />
               <Route path="/about" element={<AboutUsPage />} />
@@ -44,6 +47,7 @@ const App = () => (
           </main>
         </div>
       </BrowserRouter>
+      {import.meta.env.DEV && <Agentation />}
     </TooltipProvider>
   </QueryClientProvider>
 );

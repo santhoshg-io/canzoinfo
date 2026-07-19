@@ -6,7 +6,7 @@ const socials = [
   { href: "https://instagram.com/Canzo_in", label: "Instagram", Icon: Instagram },
 ];
 
-const LOCATION_URL = "https://share.google/sfGdXfl9UDAdLFwUO";
+const LOCATION_URL = "https://maps.app.goo.gl/nkshBcCtHXUsJoJD7";
 const LOCATION_TEXT =
   "No.15, Kosal Nagar, KGK Rd, near St. Mark's Church, opp. to Annapoorna Hotel, Kuniyamuthur, Coimbatore, Tamil Nadu 641008";
 
