@@ -5,8 +5,8 @@ import { EffectCoverflow, Autoplay } from "swiper/modules";
 import type { Swiper as SwiperClass } from "swiper";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
-import web4 from "@/assets/work/web4.png";
-import web5 from "@/assets/work/web5.png";
+import web4 from "@/assets/work/web4.webp";
+import web5 from "@/assets/work/web5.webp";
 import web6 from "@/assets/work/web6.jpeg";
 
 // Initial state must render as: Left = Canteens, Center = Sign In, Right = Cart.

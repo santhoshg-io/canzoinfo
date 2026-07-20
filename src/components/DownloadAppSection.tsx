@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 import appScreen from "@/assets/work/web6.jpeg";
-import appScreen2 from "@/assets/work/web5.png";
-import appScreen3 from "@/assets/work/web7.png";
+import appScreen2 from "@/assets/work/web5.webp";
+import appScreen3 from "@/assets/work/web7.webp";
 
 const PLAY_URL = "https://play.google.com/store/apps/details?id=canzo.in";
 const QR_URL = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data=${encodeURIComponent(

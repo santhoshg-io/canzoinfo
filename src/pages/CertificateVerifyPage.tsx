@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { certificates } from "@/data/certificates";
 import Footer from "@/components/Footer";
+import { sanitizeInput, sanitizeSqlString } from "@/lib/security";
 
 const fadeUp = {
   initial: { opacity: 0, y: 20 },
@@ -30,11 +31,12 @@ const CertificateVerifyPage = () => {
     }
   }, [certParam]);
 
-  const handleVerify = (id: string) => {
-    const cleanId = id.trim().toLowerCase();
+  const handleVerify = (rawId: string) => {
+    const sanitizedRaw = sanitizeSqlString(sanitizeInput(rawId));
+    const cleanId = sanitizedRaw.trim().toLowerCase();
     
     if (!cleanId) {
-      setError("Please enter a certificate number.");
+      setError("Please enter a valid certificate number.");
       setResult(null);
       setSearched(false);
       return;
@@ -51,7 +53,7 @@ const CertificateVerifyPage = () => {
       setError("");
     } else {
       setResult(null);
-      setError(`No certificate found with ID "${id}". Please double-check the number.`);
+      setError(`No certificate found with ID "${sanitizedRaw}". Please double-check the number.`);
     }
     setSearched(true);
   };

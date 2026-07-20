@@ -27,22 +27,49 @@ const OurWorkSection = () => {
 
   useEffect(() => {
     let animId: number;
+    let maxScroll = 0;
+
+    const measureScroll = () => {
+      const container = containerRef.current;
+      if (container) {
+        maxScroll = container.scrollWidth - container.clientWidth;
+      }
+    };
+
+
+    const container = containerRef.current;
+    let observer: ResizeObserver | null = null;
+
+    if (container) {
+      observer = new ResizeObserver(() => {
+        measureScroll();
+      });
+      observer.observe(container);
+      container.addEventListener("load", measureScroll, { capture: true, passive: true });
+    }
+
     const step = () => {
       const container = containerRef.current;
-      if (container && !isPaused) {
-        const maxScroll = container.scrollWidth - container.clientWidth;
-        if (maxScroll > 0) {
-          if (container.scrollLeft >= maxScroll - 2) {
-            container.scrollLeft = 0;
-          } else {
-            container.scrollLeft += 0.6;
-          }
+      if (container && !isPaused && maxScroll > 0) {
+        if (container.scrollLeft >= maxScroll - 2) {
+          container.scrollLeft = 0;
+        } else {
+          container.scrollLeft += 0.6;
         }
       }
       animId = requestAnimationFrame(step);
     };
     animId = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(animId);
+
+    return () => {
+      cancelAnimationFrame(animId);
+      if (observer) {
+        observer.disconnect();
+      }
+      if (container) {
+        container.removeEventListener("load", measureScroll, { capture: true });
+      }
+    };
   }, [isPaused]);
 
   return (

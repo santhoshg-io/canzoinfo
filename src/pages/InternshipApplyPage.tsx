@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
+import { sanitizeInput, sanitizeUrl, validateHoneypot, checkRateLimit } from "@/lib/security";
 import {
   Form,
   FormControl,
@@ -57,8 +58,16 @@ const formSchema = z.object({
   hasLaptop: z.enum(["Yes", "No"], {
     required_error: "Please select an option",
   }),
-  resume: z.string().url("Please enter a valid URL").min(1, "Resume link is required"),
-  presentation: z.string().url("Please enter a valid URL").min(1, "Presentation link is required"),
+  resume: z
+    .string()
+    .url("Please enter a valid URL")
+    .min(1, "Resume link is required")
+    .refine((val) => Boolean(sanitizeUrl(val)), "Please enter a valid HTTP/HTTPS URL"),
+  presentation: z
+    .string()
+    .url("Please enter a valid URL")
+    .min(1, "Presentation link is required")
+    .refine((val) => Boolean(sanitizeUrl(val)), "Please enter a valid HTTP/HTTPS URL"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -71,6 +80,7 @@ const fadeUp = {
 };
 
 const InternshipApplyPage = () => {
+  const [honeypot, setHoneypot] = useState("");
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -93,30 +103,41 @@ const InternshipApplyPage = () => {
   const [submitError, setSubmitError] = useState("");
 
   const onSubmit = async (values: FormValues) => {
+    if (!validateHoneypot(honeypot)) {
+      return;
+    }
+
+    if (!checkRateLimit("internship_apply", 4000)) {
+      setSubmitError("Too many submission attempts. Please wait a few seconds.");
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitError("");
 
+    const safeResume = sanitizeUrl(values.resume);
+    const safePresentation = sanitizeUrl(values.presentation);
+
     const payload = {
-      _subject: `New Internship Application: ${values.name} - ${values.college}`,
+      _subject: `New Internship Application: ${sanitizeInput(values.name)} - ${sanitizeInput(values.college)}`,
       _captcha: "false",
       _template: "table",
-      Name: values.name,
-      Phone: values.phone,
-      email: values.email, // lowercase email for FormSubmit Reply-To
-      College: values.college,
-      Department: values.department,
-      "Year of Study": values.yearOfStudy,
-      Interests: values.interests.join(", "),
-      ...(values.otherInterest ? { "Other Interest": values.otherInterest } : {}),
-      "Skill Level": values.skillLevel,
-      "Has Laptop": values.hasLaptop,
-      ...(values.resume ? { "Resume Link": values.resume } : {}),
-      ...(values.presentation ? { "Presentation Link": values.presentation } : {})
+      Name: sanitizeInput(values.name),
+      Phone: sanitizeInput(values.phone),
+      email: values.email.trim().toLowerCase(),
+      College: sanitizeInput(values.college),
+      Department: sanitizeInput(values.department),
+      "Year of Study": sanitizeInput(values.yearOfStudy),
+      Interests: values.interests.map(sanitizeInput).join(", "),
+      ...(values.otherInterest ? { "Other Interest": sanitizeInput(values.otherInterest) } : {}),
+      "Skill Level": sanitizeInput(values.skillLevel),
+      "Has Laptop": sanitizeInput(values.hasLaptop),
+      ...(safeResume ? { "Resume Link": safeResume } : {}),
+      ...(safePresentation ? { "Presentation Link": safePresentation } : {})
     };
 
     try {
-      // FormSubmit requires the /ajax/ endpoint when using fetch/React
-      const response = await fetch("https://formsubmit.co/ajax/tamiltamilboss090@gmail.com", {
+      const response = await fetch("/api/send-email", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
@@ -125,19 +146,14 @@ const InternshipApplyPage = () => {
         body: JSON.stringify(payload),
       });
 
-      if (response.ok) {
-        const data = await response.json().catch(() => ({}));
-        if (data.success === "false" || data.success === false) {
-          setSubmitError(data.message || "FormSubmit rejected the submission.");
-        }
-        // Success handled by react-hook-form's isSubmitSuccessful
-      } else {
-        const data = await response.json().catch(() => ({}));
-        setSubmitError(data.message || "Something went wrong. Please try again.");
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok || data.success === false) {
+        setSubmitError(data.message || "Failed to send email via SMTP. Please try again.");
       }
     } catch (error) {
       console.error("Error submitting application:", error);
-      setSubmitError("Failed to connect to the server. Please check your internet connection.");
+      setSubmitError("Failed to connect to the email server. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -198,6 +214,16 @@ const InternshipApplyPage = () => {
             <motion.div {...fadeUp} className="p-6 sm:p-10 rounded-2xl bg-card border border-border shadow-sm">
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                  {/* Honeypot field for bot protection */}
+                  <input
+                    type="text"
+                    name="website_hp"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                    style={{ display: "none" }}
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
                   {/* Personal Details */}
                   <div className="space-y-5">
                     <h2 className="text-lg font-display font-semibold text-foreground">Personal Details</h2>

@@ -10,6 +10,7 @@ import AnimatedCounter from "@/components/ui/AnimatedCounter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { sanitizeInput, sanitizeUrl, validateHoneypot, checkRateLimit } from "@/lib/security";
 import {
   Form,
   FormControl,
@@ -53,7 +54,11 @@ const formSchema = z.object({
   city: z.string().min(2, "City is required").max(100),
   outletCount: z.string().min(1, "Please select number of outlets"),
   dailyOrders: z.string().min(1, "Please select daily order volume"),
-  presentation: z.string().url("Please enter a valid URL").min(1, "Presentation link is required"),
+  presentation: z
+    .string()
+    .url("Please enter a valid URL")
+    .min(1, "Presentation link is required")
+    .refine((val) => Boolean(sanitizeUrl(val)), "Please enter a valid HTTP/HTTPS URL"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -69,6 +74,7 @@ const CanteenPartnerPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState("");
   const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
+  const [honeypot, setHoneypot] = useState("");
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -86,28 +92,41 @@ const CanteenPartnerPage = () => {
   });
 
   const onSubmit = async (values: FormValues) => {
+    // Honeypot check for bot prevention
+    if (!validateHoneypot(honeypot)) {
+      setIsSubmitSuccess(true);
+      return;
+    }
+
+    // Rate limiting check to prevent CSRF/spam flooding
+    if (!checkRateLimit("canteen_partner_apply", 4000)) {
+      setSubmitError("Too many submission attempts. Please wait a few seconds.");
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitError("");
     setIsSubmitSuccess(false);
 
+    const safePresentation = sanitizeUrl(values.presentation);
+
     const payload = {
-      _subject: `New Partner Application: ${values.canteenName} - ${values.ownerName}`,
+      _subject: `New Partner Application: ${sanitizeInput(values.canteenName)} - ${sanitizeInput(values.ownerName)}`,
       _captcha: "false",
       _template: "table",
-      Name: values.ownerName,
-      Phone: values.phone,
-      email: values.email, // lowercase email for FormSubmit Reply-To
-      "Canteen Name": values.canteenName,
-      "College Name": values.collegeName,
-      City: values.city,
-      Outlets: values.outletCount,
-      "Daily Orders": values.dailyOrders,
-      ...(values.presentation ? { "Presentation Link": values.presentation } : {})
+      Name: sanitizeInput(values.ownerName),
+      Phone: sanitizeInput(values.phone),
+      email: values.email.trim().toLowerCase(),
+      "Canteen Name": sanitizeInput(values.canteenName),
+      "College Name": sanitizeInput(values.collegeName),
+      City: sanitizeInput(values.city),
+      Outlets: sanitizeInput(values.outletCount),
+      "Daily Orders": sanitizeInput(values.dailyOrders),
+      ...(safePresentation ? { "Presentation Link": safePresentation } : {})
     };
 
     try {
-      // FormSubmit requires the /ajax/ endpoint when using fetch/React
-      const response = await fetch("https://formsubmit.co/ajax/tamiltamilboss090@gmail.com", {
+      const response = await fetch("/api/send-email", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
@@ -116,20 +135,16 @@ const CanteenPartnerPage = () => {
         body: JSON.stringify(payload),
       });
 
-      if (response.ok) {
-        const data = await response.json().catch(() => ({}));
-        if (data.success === "false" || data.success === false) {
-          setSubmitError(data.message || "FormSubmit rejected the submission.");
-        } else {
-          setIsSubmitSuccess(true);
-        }
+      const data = await response.json().catch(() => ({}));
+
+      if (response.ok && (data.success === true || data.success === undefined)) {
+        setIsSubmitSuccess(true);
       } else {
-        const data = await response.json().catch(() => ({}));
-        setSubmitError(data.message || "Something went wrong. Please try again.");
+        setSubmitError(data.message || "Failed to send email via SMTP. Please try again.");
       }
     } catch (error) {
       console.error("Error submitting partner application:", error);
-      setSubmitError("Failed to connect to the server. Please check your internet connection.");
+      setSubmitError("Failed to connect to the email server. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -229,6 +244,16 @@ const CanteenPartnerPage = () => {
               <div className="p-6 sm:p-10 rounded-2xl bg-card border border-border shadow-sm">
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                    {/* Honeypot field for bot protection */}
+                    <input
+                      type="text"
+                      name="website_hp"
+                      value={honeypot}
+                      onChange={(e) => setHoneypot(e.target.value)}
+                      style={{ display: "none" }}
+                      tabIndex={-1}
+                      autoComplete="off"
+                    />
                     {/* Owner & Canteen Details */}
                     <div className="space-y-5">
                       <h3 className="text-lg font-display font-semibold text-foreground">Canteen Details</h3>

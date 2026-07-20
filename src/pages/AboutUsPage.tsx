@@ -5,8 +5,8 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import StackCard from "@/components/StackCard";
 
-import ceoVikramImg from "@/assets/ceo-vikram.png";
-import jintoImg from "@/assets/jinto.png";
+import ceoVikramImg from "@/assets/ceo-vikram.webp";
+import jintoImg from "@/assets/jinto.webp";
 import ajithImg from "@/assets/ajith.jpeg";
 
 const fadeUp = {

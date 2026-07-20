@@ -6,6 +6,101 @@ interface StackCardProps {
   className?: string;
 }
 
+interface CardInstance {
+  card: HTMLDivElement;
+  getHeight: () => number;
+  updateStickyTop: (height: number, windowHeight: number, isMobile: boolean) => void;
+  updateScroll: (nextCardRect: DOMRect | null, windowHeight: number) => void;
+  getNextCard: () => HTMLElement | null;
+}
+
+// Global coordinator for stack card scrolling and resizing to prevent forced reflows (layout thrashing)
+const activeCards = new Set<CardInstance>();
+let globalScrollRaf: number | null = null;
+let listenersRegistered = false;
+
+const runGlobalUpdate = () => {
+  const windowHeight = window.innerHeight;
+  const isMobile = window.innerWidth <= 767;
+
+  // 1. Read phase: get rects of next elements first (batched)
+  const updates: Array<{
+    instance: CardInstance;
+    nextRect: DOMRect | null;
+  }> = [];
+
+  for (const instance of activeCards) {
+    if (isMobile && !instance.card.classList.contains("stack-card-combined")) {
+      const nextCard = instance.getNextCard();
+      updates.push({
+        instance,
+        nextRect: nextCard ? nextCard.getBoundingClientRect() : null,
+      });
+    } else {
+      updates.push({
+        instance,
+        nextRect: null,
+      });
+    }
+  }
+
+  // 2. Write phase: update styles (batched)
+  for (const { instance, nextRect } of updates) {
+    instance.updateScroll(nextRect, windowHeight);
+  }
+};
+
+const triggerGlobalUpdate = () => {
+  if (globalScrollRaf !== null) {
+    cancelAnimationFrame(globalScrollRaf);
+  }
+  globalScrollRaf = requestAnimationFrame(() => {
+    runGlobalUpdate();
+    globalScrollRaf = null;
+  });
+};
+
+const globalResizeHandler = () => {
+  const windowHeight = window.innerHeight;
+  const isMobile = window.innerWidth <= 767;
+
+  // 1. Read phase: get heights of all cards
+  const heights = new Map<CardInstance, number>();
+  for (const instance of activeCards) {
+    heights.set(instance, instance.getHeight());
+  }
+
+  // 2. Write phase: update styles
+  for (const instance of activeCards) {
+    const height = heights.get(instance) || 0;
+    instance.updateStickyTop(height, windowHeight, isMobile);
+  }
+
+  triggerGlobalUpdate();
+};
+
+const registerCardInstance = (instance: CardInstance) => {
+  activeCards.add(instance);
+  if (!listenersRegistered) {
+    window.addEventListener("scroll", triggerGlobalUpdate, { passive: true });
+    window.addEventListener("resize", globalResizeHandler, { passive: true });
+    listenersRegistered = true;
+  }
+};
+
+const unregisterCardInstance = (instance: CardInstance) => {
+  activeCards.delete(instance);
+  if (activeCards.size === 0 && listenersRegistered) {
+    window.removeEventListener("scroll", triggerGlobalUpdate);
+    window.removeEventListener("resize", globalResizeHandler);
+    listenersRegistered = false;
+    if (globalScrollRaf !== null) {
+      cancelAnimationFrame(globalScrollRaf);
+      globalScrollRaf = null;
+    }
+  }
+};
+
 const StackCard: React.FC<StackCardProps> = ({ children, zIndex, className = "" }) => {
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -14,31 +109,33 @@ const StackCard: React.FC<StackCardProps> = ({ children, zIndex, className = "" 
 
     const card = cardRef.current;
 
-    const updateStickyTop = () => {
-      // If it's the combined card, we don't want to calculate sticky top because it uses relative positioning.
+    const getHeight = () => {
+      return card.offsetHeight;
+    };
+
+    const updateStickyTop = (height: number, windowHeight: number, isMobile: boolean) => {
       if (card.classList.contains("stack-card-combined")) {
         card.style.top = "";
         return;
       }
 
-      // Only apply dynamic sticky behavior on mobile
-      if (window.innerWidth <= 767) {
-        const height = card.offsetHeight;
-        const windowHeight = window.innerHeight;
-
-        // Stick such that the bottom of the card is exactly at 50% of the mobile screen height
+      if (isMobile) {
         card.style.top = `${windowHeight * 0.5 - height}px`;
       } else {
         card.style.top = "";
       }
     };
 
-    const handleScroll = () => {
+    const getNextCard = () => card.nextElementSibling as HTMLElement;
+
+    const updateScroll = (nextRect: DOMRect | null, windowHeight: number) => {
       if (window.innerWidth > 767) {
         card.style.transform = "";
         card.style.filter = "";
         card.style.transformOrigin = "";
         card.style.willChange = "";
+        card.style.borderTopColor = "";
+        card.style.boxShadow = "";
         return;
       }
 
@@ -46,35 +143,25 @@ const StackCard: React.FC<StackCardProps> = ({ children, zIndex, className = "" 
         return;
       }
 
-      const nextCard = card.nextElementSibling as HTMLElement;
-      if (nextCard) {
-        const nextRect = nextCard.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-        
-        // The animation starts when the next card's top reaches 50% of screen height (bottom of stuck card)
-        // and completes when next card reaches the top of the screen (0px).
+      if (nextRect) {
         const startScrollY = windowHeight * 0.5;
         const endScrollY = 0;
 
         if (nextRect.top < startScrollY) {
-          // Calculate progress from 0 (at 50% screen height) to 1 (at top of screen)
           const totalDistance = startScrollY - endScrollY;
           const currentDistance = startScrollY - nextRect.top;
           const progress = Math.max(0, Math.min(1, currentDistance / totalDistance));
           
-          // Map progress to scale, brightness, 3D tilt, and translateY drop
-          const newScale = 1 - (progress * 0.08); // Scales down from 1.0 to 0.92
-          const brightness = 1 - (progress * 0.5); // Dims from 1.0 to 0.5 brightness
-          const rotateX = progress * 3.5; // 3D tilt back up to 3.5 degrees
-          const translateY = progress * 12; // Slides downward by 12px
+          const newScale = 1 - (progress * 0.08);
+          const brightness = 1 - (progress * 0.5);
+          const rotateX = progress * 3.5;
+          const translateY = progress * 12;
 
           card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) scale(${newScale}) translateY(${translateY}px)`;
           card.style.filter = `brightness(${brightness})`;
           card.style.transformOrigin = "top center";
           card.style.willChange = "transform, filter";
 
-          // Idea 2: Dynamic Amber Top Border & Glow Shadow
-          // Brand Amber is HSL 39 86% 63% -> RGB (245, 158, 11)
           card.style.borderTopColor = `rgba(245, 158, 11, ${progress * 0.6})`;
           card.style.boxShadow = `0 -12px 32px -12px rgba(0, 0, 0, 0.4), 0 -4px 16px -2px rgba(245, 158, 11, ${progress * 0.3})`;
         } else {
@@ -85,25 +172,34 @@ const StackCard: React.FC<StackCardProps> = ({ children, zIndex, className = "" 
           card.style.borderTopColor = "";
           card.style.boxShadow = "";
         }
+      } else {
+        card.style.transform = "";
+        card.style.filter = "";
+        card.style.transformOrigin = "";
+        card.style.willChange = "";
+        card.style.borderTopColor = "";
+        card.style.boxShadow = "";
       }
     };
 
-    updateStickyTop();
-    handleScroll();
+    const instance: CardInstance = {
+      card,
+      getHeight,
+      updateStickyTop,
+      updateScroll,
+      getNextCard,
+    };
+
+    registerCardInstance(instance);
 
     const observer = new ResizeObserver(() => {
-      updateStickyTop();
-      handleScroll();
+      globalResizeHandler();
     });
     observer.observe(card);
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleScroll, { passive: true });
-
     return () => {
+      unregisterCardInstance(instance);
       observer.disconnect();
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
     };
   }, []);
 

@@ -9,6 +9,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { sanitizeInput, sanitizeUrl, validateHoneypot, checkRateLimit } from "@/lib/security";
 import {
   Form,
   FormControl,
@@ -45,9 +46,21 @@ const formSchema = z.object({
   email: z.string().email("Enter a valid email address").max(255, "Email is too long"),
   role: z.string().min(2, "Role is required"),
   experience: z.string().min(1, "Experience is required"),
-  portfolio: z.string().url("Please enter a valid URL").optional().or(z.literal("")),
-  resume: z.string().url("Please enter a valid URL").min(1, "Resume link is required"),
-  presentation: z.string().url("Please enter a valid URL").min(1, "Presentation link is required"),
+  portfolio: z
+    .string()
+    .optional()
+    .or(z.literal(""))
+    .refine((val) => !val || Boolean(sanitizeUrl(val)), "Please enter a valid HTTP/HTTPS URL"),
+  resume: z
+    .string()
+    .url("Please enter a valid URL")
+    .min(1, "Resume link is required")
+    .refine((val) => Boolean(sanitizeUrl(val)), "Please enter a valid HTTP/HTTPS URL"),
+  presentation: z
+    .string()
+    .url("Please enter a valid URL")
+    .min(1, "Presentation link is required")
+    .refine((val) => Boolean(sanitizeUrl(val)), "Please enter a valid HTTP/HTTPS URL"),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -62,6 +75,7 @@ const fadeUp = {
 const CareersApplyPage = () => {
   const [searchParams] = useSearchParams();
   const roleParam = searchParams.get("role");
+  const [honeypot, setHoneypot] = useState("");
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -87,26 +101,38 @@ const CareersApplyPage = () => {
   const [submitError, setSubmitError] = useState("");
 
   const onSubmit = async (values: FormValues) => {
+    if (!validateHoneypot(honeypot)) {
+      return;
+    }
+
+    if (!checkRateLimit("careers_apply", 4000)) {
+      setSubmitError("Too many submission attempts. Please wait a few seconds.");
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitError("");
 
+    const safePortfolio = sanitizeUrl(values.portfolio);
+    const safeResume = sanitizeUrl(values.resume);
+    const safePresentation = sanitizeUrl(values.presentation);
+
     const payload = {
-      _subject: `New Career Application: ${values.role} - ${values.name}`,
+      _subject: `New Career Application: ${sanitizeInput(values.role)} - ${sanitizeInput(values.name)}`,
       _captcha: "false",
       _template: "table",
-      Name: values.name,
-      Phone: values.phone,
-      email: values.email, // lowercase email for FormSubmit Reply-To
-      Role: values.role,
-      Experience: values.experience,
-      ...(values.portfolio ? { Portfolio: values.portfolio } : {}),
-      ...(values.resume ? { "Resume Link": values.resume } : {}),
-      ...(values.presentation ? { "Presentation Link": values.presentation } : {})
+      Name: sanitizeInput(values.name),
+      Phone: sanitizeInput(values.phone),
+      email: values.email.trim().toLowerCase(),
+      Role: sanitizeInput(values.role),
+      Experience: sanitizeInput(values.experience),
+      ...(safePortfolio ? { Portfolio: safePortfolio } : {}),
+      ...(safeResume ? { "Resume Link": safeResume } : {}),
+      ...(safePresentation ? { "Presentation Link": safePresentation } : {})
     };
 
     try {
-      // FormSubmit requires the /ajax/ endpoint when using fetch/React
-      const response = await fetch("https://formsubmit.co/ajax/tamiltamilboss090@gmail.com", {
+      const response = await fetch("/api/send-email", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
@@ -115,19 +141,14 @@ const CareersApplyPage = () => {
         body: JSON.stringify(payload),
       });
 
-      if (response.ok) {
-        const data = await response.json().catch(() => ({}));
-        if (data.success === "false" || data.success === false) {
-          setSubmitError(data.message || "FormSubmit rejected the submission.");
-        }
-        // Success handled by react-hook-form's isSubmitSuccessful
-      } else {
-        const data = await response.json().catch(() => ({}));
-        setSubmitError(data.message || "Something went wrong. Please try again.");
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok || data.success === false) {
+        setSubmitError(data.message || "Failed to send email via SMTP. Please try again.");
       }
     } catch (error) {
       console.error("Error submitting application:", error);
-      setSubmitError("Failed to connect to the server. Please check your internet connection.");
+      setSubmitError("Failed to connect to the email server. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -188,6 +209,16 @@ const CareersApplyPage = () => {
             <motion.div {...fadeUp} className="p-6 sm:p-10 rounded-2xl bg-card border border-border shadow-sm">
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                  {/* Honeypot field for bot protection */}
+                  <input
+                    type="text"
+                    name="website_hp"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                    style={{ display: "none" }}
+                    tabIndex={-1}
+                    autoComplete="off"
+                  />
                   {/* Personal Details */}
                   <div className="space-y-5">
                     <h2 className="text-lg font-display font-semibold text-foreground">Personal Details</h2>

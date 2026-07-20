@@ -2,6 +2,26 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+
+    <!-- Content Security Policy (Fallback) -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://scripts.clarity.ms https://www.clarity.ms; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://www.google-analytics.com https://*.clarity.ms https://scripts.clarity.ms; frame-ancestors 'none'; object-src 'none'; base-uri 'self';">
+
+    <title>Canzo — Smart Campus Canteen Ordering</title>
+    <meta name="description" content="Order food from your campus canteen instantly. Skip queues, browse menus, and pick up when ready.">
+    <meta name="author" content="Canzo" />
+
+    <!-- OpenGraph & Twitter Meta -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Canzo — Smart Campus Canteen Ordering">
+    <meta property="og:description" content="Order food from your campus canteen instantly. Skip queues, browse menus, and pick up when ready.">
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Canzo — Smart Campus Canteen Ordering">
+    <meta name="twitter:description" content="Order food from your campus canteen instantly. Skip queues, browse menus, and pick up when ready.">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
 
     <!-- Preconnect to critical third-party origins -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -9,51 +29,63 @@
     <link rel="preconnect" href="https://scripts.clarity.ms" crossorigin />
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
 
-    <!-- Google Analytics (GA4) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-CLS57TPR09"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-CLS57TPR09');
-    </script>
+    <!-- Preload Hero LCP Image -->
+    <link rel="preload" href="/logohero.webp" as="image" type="image/webp" fetchpriority="high" />
+    
+    <!-- Preload Hero LCP Video -->
+    <link rel="preload" href="/hero1.webm" as="video" type="video/webm" fetchpriority="high" />
 
-    <!-- Microsoft Clarity -->
+    <!-- Deferred Analytics Loader (Non-blocking performance optimization) -->
     <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "x9hh3n1iq9");
+      (function() {
+        var analyticsInitialized = false;
+        function initAnalytics() {
+          if (analyticsInitialized) return;
+          analyticsInitialized = true;
+
+          // Remove listeners
+          window.removeEventListener('scroll', initAnalytics);
+          window.removeEventListener('click', initAnalytics);
+          window.removeEventListener('touchstart', initAnalytics);
+          window.removeEventListener('mousemove', initAnalytics);
+
+          // Google Tag Manager / Analytics (GA4)
+          var gaScript = document.createElement('script');
+          gaScript.async = true;
+          gaScript.src = 'https://www.googletagmanager.com/gtag/js?id=G-CLS57TPR09';
+          document.head.appendChild(gaScript);
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          window.gtag = gtag;
+          gtag('js', new Date());
+          gtag('config', 'G-CLS57TPR09');
+
+          // Microsoft Clarity
+          (function(c,l,a,r,i,t,y){
+              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+              t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+          })(window, document, "clarity", "script", "x9hh3n1iq9");
+        }
+
+        // Trigger on interaction
+        window.addEventListener('scroll', initAnalytics, { passive: true });
+        window.addEventListener('click', initAnalytics, { passive: true });
+        window.addEventListener('touchstart', initAnalytics, { passive: true });
+        window.addEventListener('mousemove', initAnalytics, { passive: true });
+
+        // Fallback after idle or timeout
+        if ('requestIdleCallback' in window) {
+          window.requestIdleCallback(function() {
+            setTimeout(initAnalytics, 3000);
+          });
+        } else {
+          setTimeout(initAnalytics, 4000);
+        }
+      })();
     </script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Canzo — Smart Campus Canteen Ordering</title>
-    <meta name="description" content="Order food from your campus canteen instantly. Skip queues, browse menus, and pick up when ready.">
-    <meta name="author" content="Canzo" />
-
-    
-    
-    <meta property="og:type" content="website" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  <meta property="og:title" content="Canzo — Smart Campus Canteen Ordering">
-  <meta name="twitter:title" content="Canzo — Smart Campus Canteen Ordering">
-  <meta property="og:description" content="Order food from your campus canteen instantly. Skip queues, browse menus, and pick up when ready.">
-  <meta name="twitter:description" content="Order food from your campus canteen instantly. Skip queues, browse menus, and pick up when ready.">
-  <link rel="icon" type="image/x-icon" href="/favicon.ico">
-</head>
+  </head>
 
   <body>
     <div id="root"></div>

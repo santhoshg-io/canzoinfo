@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import canzoLogo from "@/assets/canzo-logo.png";
+
+import canzoLogo from "@/assets/canzo-logo.webp";
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
@@ -42,47 +42,20 @@ const navLinks = [
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [showGetStarted, setShowGetStarted] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
   const navElRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    const el = navElRef.current;
-    if (!el) return;
-    let rafId = 0;
-    const setVar = () => {
-      cancelAnimationFrame(rafId);
-      rafId = requestAnimationFrame(() => {
-        const h = el.getBoundingClientRect().height;
-        document.documentElement.style.setProperty("--navbar-height", `${Math.round(h)}px`);
-      });
-    };
-    setVar();
-    const ro = new ResizeObserver(setVar);
-    ro.observe(el);
-    window.addEventListener("resize", setVar);
-    return () => {
-      cancelAnimationFrame(rafId);
-      ro.disconnect();
-      window.removeEventListener("resize", setVar);
-    };
-  }, [mobileOpen, scrolled]);
+    const h = scrolled ? 48 : 64;
+    document.documentElement.style.setProperty("--navbar-height", `${h}px`);
+  }, [scrolled]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setShowGetStarted(window.innerWidth >= 342);
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -109,10 +82,7 @@ const Navbar = () => {
   };
 
   return (
-    <motion.nav
-      ref={navElRef as any}
-      initial={{ y: -20, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
+    <nav
       className={`sticky top-0 z-50 backdrop-blur-md transition-all duration-300 ${
         scrolled
           ? "bg-background/90 border-b border-border shadow-md"
@@ -144,16 +114,14 @@ const Navbar = () => {
           ))}
         </div>
         <div className="flex items-center gap-3">
-          {showGetStarted && (
-            <a
-              href="https://canzo.in"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-5 py-2 rounded-full bg-accent text-accent-foreground font-semibold text-sm hover:bg-amber-hover transition-colors"
-            >
-              Get Started
-            </a>
-          )}
+          <a
+            href="https://canzo.in"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden min-[342px]:inline-block px-5 py-2 rounded-full bg-accent text-accent-foreground font-semibold text-sm hover:bg-amber-hover transition-colors"
+          >
+            Get Started
+          </a>
           <button
             className="lg:hidden p-2 text-foreground"
             onClick={() => setMobileOpen(!mobileOpen)}
@@ -164,27 +132,25 @@ const Navbar = () => {
         </div>
       </div>
       {/* Mobile menu */}
-      {mobileOpen && (
-        <motion.div
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="lg:hidden border-t border-border bg-background/95 backdrop-blur-md"
-        >
-          <div className="container py-4 flex flex-col gap-3">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
-                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-2 cursor-pointer"
-              >
-                {link.label}
-              </a>
-            ))}
-          </div>
-        </motion.div>
-      )}
-    </motion.nav>
+      <div
+        className={`lg:hidden border-t border-border bg-background/95 backdrop-blur-md transition-all duration-300 overflow-hidden ${
+          mobileOpen ? "max-h-60 opacity-100 py-4" : "max-h-0 opacity-0 py-0"
+        }`}
+      >
+        <div className="container flex flex-col gap-3">
+          {navLinks.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              onClick={(e) => handleNavClick(e, link.href)}
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-2 cursor-pointer"
+            >
+              {link.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </nav>
   );
 };
 

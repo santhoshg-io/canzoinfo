@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { sanitizeInput, validateHoneypot, checkRateLimit } from "@/lib/security";
 
 const liveColleges = [
   "Hindusthan College of Arts and Science",
@@ -48,26 +49,38 @@ const fadeUp = {
 const CollegesCanteensPage = () => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({ name: "", institution: "", phone: "", email: "", message: "" });
+  const [honeypot, setHoneypot] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateHoneypot(honeypot)) {
+      setIsSubmitSuccess(true);
+      return;
+    }
+
+    if (!checkRateLimit("college_partnership", 4000)) {
+      toast({ variant: "destructive", title: "Rate Limit Exceeded", description: "Too many submission attempts. Please wait a few seconds." });
+      return;
+    }
+
     setSubmitting(true);
     
     const payload = {
-      _subject: `New Partnership Request: ${formData.institution} - ${formData.name}`,
+      _subject: `New Partnership Request: ${sanitizeInput(formData.institution)} - ${sanitizeInput(formData.name)}`,
       _captcha: "false",
       _template: "table",
-      Name: formData.name,
-      "Institution / Canteen": formData.institution,
-      Phone: formData.phone,
-      email: formData.email,
-      ...(formData.message ? { Message: formData.message } : {})
+      Name: sanitizeInput(formData.name),
+      "Institution / Canteen": sanitizeInput(formData.institution),
+      Phone: sanitizeInput(formData.phone),
+      email: formData.email.trim().toLowerCase(),
+      ...(formData.message ? { Message: sanitizeInput(formData.message) } : {})
     };
 
     try {
-      const response = await fetch("https://formsubmit.co/ajax/tamiltamilboss090@gmail.com", {
+      const response = await fetch("/api/send-email", {
         method: "POST",
         headers: { 
           "Content-Type": "application/json",
@@ -76,20 +89,16 @@ const CollegesCanteensPage = () => {
         body: JSON.stringify(payload),
       });
 
-      if (response.ok) {
-        const data = await response.json().catch(() => ({}));
-        if (data.success === "false" || data.success === false) {
-          toast({ variant: "destructive", title: "Submission Failed", description: data.message || "FormSubmit rejected the submission." });
-        } else {
-          setIsSubmitSuccess(true);
-        }
+      const data = await response.json().catch(() => ({}));
+
+      if (response.ok && (data.success === true || data.success === undefined)) {
+        setIsSubmitSuccess(true);
       } else {
-        const data = await response.json().catch(() => ({}));
-        toast({ variant: "destructive", title: "Submission Failed", description: data.message || "Something went wrong. Please try again." });
+        toast({ variant: "destructive", title: "Submission Failed", description: data.message || "Failed to send email via SMTP." });
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      toast({ variant: "destructive", title: "Error", description: "Failed to connect to the server. Please check your internet connection." });
+      toast({ variant: "destructive", title: "Error", description: "Failed to connect to the email server. Please try again." });
     } finally {
       setSubmitting(false);
     }
@@ -224,6 +233,16 @@ const CollegesCanteensPage = () => {
               <h2 className="text-2xl font-display font-bold text-foreground mb-2">Become a Partner</h2>
               <p className="text-sm text-muted-foreground mb-8">Interested in bringing Canzo to your campus or canteen? Share your details and our team will reach out.</p>
               <form onSubmit={handleSubmit} className="space-y-5">
+                {/* Honeypot field for bot protection */}
+                <input
+                  type="text"
+                  name="website_hp"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  style={{ display: "none" }}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
                 <div>
                   <label className="text-sm font-medium text-foreground mb-1.5 block">Your Name</label>
                   <input

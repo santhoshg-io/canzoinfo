@@ -2,8 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
-import canzoLogo from "@/assets/logohero.webp";
-import heroVideo from "@/assets/hero1.webm";
+
 import cardStudents from "@/assets/cardstudent.webp";
 import cardCanteen from "@/assets/cardcanteen.webp";
 import cardInternship from "@/assets/intership.webp";
@@ -56,9 +55,18 @@ const HeroSection = () => {
   const [time, setTime] = useState(new Date());
   const [phase, setPhase] = useState<Phase>("intro");
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   const showLogo = phase === "intro" || phase === "outro";
   const showVideo = phase === "playing";
+
+  // Check mobile viewport for animation optimization
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile, { passive: true });
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   // Live clock tick
   useEffect(() => {
@@ -76,7 +84,7 @@ const HeroSection = () => {
       }
     }, 2000);
     return () => clearTimeout(timer);
-  }, []); // runs once on mount
+  }, []);
 
   // OUTRO → PLAYING: after 3 seconds of outro, replay video
   useEffect(() => {
@@ -90,6 +98,26 @@ const HeroSection = () => {
       }, 3000);
       return () => clearTimeout(timer);
     }
+  }, [phase]);
+
+  // Viewport Observer to pause video when not visible
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (videoRef.current) {
+          if (entry.isIntersecting && phase === "playing") {
+            videoRef.current.play().catch(() => {});
+          } else {
+            videoRef.current.pause();
+          }
+        }
+      },
+      { threshold: 0.1 }
+    );
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+    return () => observer.disconnect();
   }, [phase]);
 
   // Video ends → switch to outro
@@ -129,10 +157,11 @@ const HeroSection = () => {
           <motion.div style={{ y, opacity }} className="absolute inset-0 z-0">
             <video 
               ref={videoRef}
-              src={heroVideo} 
-              autoPlay 
+              src="/hero1.webm" 
               muted 
               playsInline
+              preload="auto"
+              fetchPriority="high"
               onEnded={handleVideoEnded}
               className={`w-full h-full object-cover transition-opacity duration-1000 ${showVideo ? "opacity-70" : "opacity-0"}`}
             />
@@ -154,11 +183,12 @@ const HeroSection = () => {
                 }}
               >
                 <img 
-                  src={canzoLogo} 
+                  src="/logohero.webp" 
                   alt="Canzo Logo" 
                   className="w-full h-full object-contain" 
                   width="1778"
                   height="634"
+                  fetchPriority="high"
                 />
                 
                 {/* Real-time Clock overlay */}
