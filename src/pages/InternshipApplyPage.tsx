@@ -42,9 +42,16 @@ const interestOptions = [
 ];
 
 const formSchema = z.object({
-  name: z.string().min(2, "Name is required").max(100, "Name must be under 100 characters"),
-  phone: z.string().regex(/^\d{10}$/, "Enter a valid mobile number"),
-  email: z.string().email("Enter a valid email address").max(255, "Email is too long"),
+  name: z
+    .string()
+    .min(2, "Name is required")
+    .max(100, "Name must be under 100 characters")
+    .regex(/^[a-zA-Z\s.]+$/, "Name can only contain letters, spaces and dots"),
+  phone: z.string().regex(/^\d{10}$/, "Enter a valid 10-digit mobile number"),
+  email: z
+    .string()
+    .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Enter a valid email address")
+    .max(255, "Email is too long"),
   college: z.string().min(2, "College name is required").max(200, "College name is too long"),
   department: z.string().min(2, "Department / course is required").max(200, "Department name is too long"),
   yearOfStudy: z.enum(["1st Year", "2nd Year", "3rd Year", "4th Year"], {

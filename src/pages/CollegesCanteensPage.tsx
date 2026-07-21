@@ -49,12 +49,61 @@ const fadeUp = {
 const CollegesCanteensPage = () => {
   const { toast } = useToast();
   const [formData, setFormData] = useState({ name: "", institution: "", phone: "", email: "", message: "" });
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [honeypot, setHoneypot] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
 
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const phoneRegex = /^\d{10}$/;
+
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = "Name must be at least 2 characters";
+    } else if (formData.name.trim().length > 100) {
+      newErrors.name = "Name must be under 100 characters";
+    }
+
+    if (!formData.institution.trim()) {
+      newErrors.institution = "Institution name is required";
+    } else if (formData.institution.trim().length < 2) {
+      newErrors.institution = "Institution name must be at least 2 characters";
+    } else if (formData.institution.trim().length > 200) {
+      newErrors.institution = "Institution name must be under 200 characters";
+    }
+
+    const cleanPhone = formData.phone.trim().replace(/[\s-]/g, "");
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (!phoneRegex.test(cleanPhone)) {
+      newErrors.phone = "Enter a valid 10-digit mobile number";
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!emailRegex.test(formData.email.trim())) {
+      newErrors.email = "Enter a valid email address";
+    } else if (formData.email.trim().length > 255) {
+      newErrors.email = "Email is too long";
+    }
+
+    if (formData.message && formData.message.length > 1000) {
+      newErrors.message = "Message must be under 1000 characters";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
 
     if (!validateHoneypot(honeypot)) {
       setIsSubmitSuccess(true);
@@ -248,20 +297,28 @@ const CollegesCanteensPage = () => {
                   <input
                     required
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-xl border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent/50"
+                    onChange={(e) => {
+                      setFormData({ ...formData, name: e.target.value });
+                      if (errors.name) setErrors({ ...errors, name: "" });
+                    }}
+                    className={`w-full px-4 py-2.5 rounded-xl border bg-background text-foreground text-sm focus:outline-none focus:ring-2 ${errors.name ? 'border-destructive focus:ring-destructive/50' : 'border-border focus:ring-accent/50'}`}
                     placeholder="John Doe"
                   />
+                  {errors.name && <p className="text-xs text-destructive mt-1">{errors.name}</p>}
                 </div>
                 <div>
                   <label className="text-sm font-medium text-foreground mb-1.5 block">Institution / Canteen Name</label>
                   <input
                     required
                     value={formData.institution}
-                    onChange={(e) => setFormData({ ...formData, institution: e.target.value })}
-                    className="w-full px-4 py-2.5 rounded-xl border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent/50"
+                    onChange={(e) => {
+                      setFormData({ ...formData, institution: e.target.value });
+                      if (errors.institution) setErrors({ ...errors, institution: "" });
+                    }}
+                    className={`w-full px-4 py-2.5 rounded-xl border bg-background text-foreground text-sm focus:outline-none focus:ring-2 ${errors.institution ? 'border-destructive focus:ring-destructive/50' : 'border-border focus:ring-accent/50'}`}
                     placeholder="XYZ University"
                   />
+                  {errors.institution && <p className="text-xs text-destructive mt-1">{errors.institution}</p>}
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
@@ -270,10 +327,14 @@ const CollegesCanteensPage = () => {
                       required
                       type="tel"
                       value={formData.phone}
-                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent/50"
-                      placeholder="+91 98765 43210"
+                      onChange={(e) => {
+                        setFormData({ ...formData, phone: e.target.value });
+                        if (errors.phone) setErrors({ ...errors, phone: "" });
+                      }}
+                      className={`w-full px-4 py-2.5 rounded-xl border bg-background text-foreground text-sm focus:outline-none focus:ring-2 ${errors.phone ? 'border-destructive focus:ring-destructive/50' : 'border-border focus:ring-accent/50'}`}
+                      placeholder="9876543210"
                     />
+                    {errors.phone && <p className="text-xs text-destructive mt-1">{errors.phone}</p>}
                   </div>
                   <div>
                     <label className="text-sm font-medium text-foreground mb-1.5 block">Email</label>
@@ -281,21 +342,29 @@ const CollegesCanteensPage = () => {
                       required
                       type="email"
                       value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-2.5 rounded-xl border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent/50"
+                      onChange={(e) => {
+                        setFormData({ ...formData, email: e.target.value });
+                        if (errors.email) setErrors({ ...errors, email: "" });
+                      }}
+                      className={`w-full px-4 py-2.5 rounded-xl border bg-background text-foreground text-sm focus:outline-none focus:ring-2 ${errors.email ? 'border-destructive focus:ring-destructive/50' : 'border-border focus:ring-accent/50'}`}
                       placeholder="you@college.edu"
                     />
+                    {errors.email && <p className="text-xs text-destructive mt-1">{errors.email}</p>}
                   </div>
                 </div>
                 <div>
                   <label className="text-sm font-medium text-foreground mb-1.5 block">Message (optional)</label>
                   <textarea
                     value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                    onChange={(e) => {
+                      setFormData({ ...formData, message: e.target.value });
+                      if (errors.message) setErrors({ ...errors, message: "" });
+                    }}
                     rows={3}
-                    className="w-full px-4 py-2.5 rounded-xl border border-border bg-background text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 resize-none"
+                    className={`w-full px-4 py-2.5 rounded-xl border bg-background text-foreground text-sm focus:outline-none focus:ring-2 resize-none ${errors.message ? 'border-destructive focus:ring-destructive/50' : 'border-border focus:ring-accent/50'}`}
                     placeholder="Tell us about your campus..."
                   />
+                  {errors.message && <p className="text-xs text-destructive mt-1">{errors.message}</p>}
                 </div>
                 <button
                   type="submit"

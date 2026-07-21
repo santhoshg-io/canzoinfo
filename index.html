@@ -29,8 +29,14 @@
     <link rel="preconnect" href="https://scripts.clarity.ms" crossorigin />
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
 
+    <!-- Google Fonts stylesheet (Non-render-blocking asynchronous load) -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Space+Grotesk:wght@300..700&display=swap" media="print" onload="this.media='all'" />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Space+Grotesk:wght@300..700&display=swap" />
+    </noscript>
+
     <!-- Preload Hero LCP Image -->
-    <link rel="preload" href="/logohero.webp" as="image" type="image/webp" fetchpriority="high" />
+    <link rel="preload" href="/logohero.avif" as="image" type="image/avif" fetchpriority="high" />
     
     <!-- Preload Hero LCP Video -->
     <link rel="preload" href="/hero1.webm" as="video" type="video/webm" fetchpriority="high" />
@@ -88,7 +94,12 @@
   </head>
 
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Static LCP discovery shell for instant HTML parser video discovery -->
+      <div style="position:fixed;top:0;left:0;width:100vw;height:100vh;overflow:hidden;z-index:-9999;pointer-events:none;opacity:0.01;">
+        <video src="/hero1.webm" muted playsinline preload="auto" fetchpriority="high" style="width:100%;height:100%;object-fit:cover;"></video>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

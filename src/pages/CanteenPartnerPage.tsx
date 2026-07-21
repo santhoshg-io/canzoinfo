@@ -46,10 +46,17 @@ const features = [
 ];
 
 const formSchema = z.object({
-  ownerName: z.string().min(2, "Owner name is required").max(100),
+  ownerName: z
+    .string()
+    .min(2, "Owner name is required")
+    .max(100)
+    .regex(/^[a-zA-Z\s.]+$/, "Name can only contain letters, spaces and dots"),
   canteenName: z.string().min(2, "Canteen name is required").max(200),
-  phone: z.string().regex(/^\d{10}$/, "Enter a valid mobile number"),
-  email: z.string().email("Enter a valid email address").max(255),
+  phone: z.string().regex(/^\d{10}$/, "Enter a valid 10-digit mobile number"),
+  email: z
+    .string()
+    .regex(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, "Enter a valid email address")
+    .max(255),
   collegeName: z.string().min(2, "College / Institution name is required").max(200),
   city: z.string().min(2, "City is required").max(100),
   outletCount: z.string().min(1, "Please select number of outlets"),

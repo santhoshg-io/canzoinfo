@@ -48,7 +48,11 @@ const Navbar = () => {
 
   useEffect(() => {
     const h = scrolled ? 48 : 64;
-    document.documentElement.style.setProperty("--navbar-height", `${h}px`);
+    // Defer CSS custom property write to avoid forced style recalculation
+    const id = requestAnimationFrame(() => {
+      document.documentElement.style.setProperty("--navbar-height", `${h}px`);
+    });
+    return () => cancelAnimationFrame(id);
   }, [scrolled]);
 
   useEffect(() => {
@@ -76,7 +80,9 @@ const Navbar = () => {
       navigate("/" + href);
     } else {
       const id = href.replace("#", "");
-      document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      requestAnimationFrame(() => {
+        document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+      });
     }
     setMobileOpen(false);
   };
@@ -133,21 +139,23 @@ const Navbar = () => {
       </div>
       {/* Mobile menu */}
       <div
-        className={`lg:hidden border-t border-border bg-background/95 backdrop-blur-md transition-all duration-300 overflow-hidden ${
-          mobileOpen ? "max-h-60 opacity-100 py-4" : "max-h-0 opacity-0 py-0"
-        }`}
+        className={`lg:hidden grid transition-[grid-template-rows,opacity] duration-300 ${
+          mobileOpen ? "grid-rows-[1fr] opacity-100 border-t border-border py-4" : "grid-rows-[0fr] opacity-0 py-0"
+        } bg-background/95 backdrop-blur-md`}
       >
-        <div className="container flex flex-col gap-3">
-          {navLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              onClick={(e) => handleNavClick(e, link.href)}
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-2 cursor-pointer"
-            >
-              {link.label}
-            </a>
-          ))}
+        <div className="overflow-hidden">
+          <div className="container flex flex-col gap-3">
+            {navLinks.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                onClick={(e) => handleNavClick(e, link.href)}
+                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors py-2 cursor-pointer"
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </nav>

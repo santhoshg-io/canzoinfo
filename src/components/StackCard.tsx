@@ -8,10 +8,10 @@ interface StackCardProps {
 
 interface CardInstance {
   card: HTMLDivElement;
-  getHeight: () => number;
-  updateStickyTop: (height: number, windowHeight: number, isMobile: boolean) => void;
-  updateScroll: (nextCardRect: DOMRect | null, windowHeight: number) => void;
+  cachedHeight: number;
   getNextCard: () => HTMLElement | null;
+  updateStickyTop: (height: number, windowHeight: number, isMobile: boolean) => void;
+  updateScroll: (nextCardRect: DOMRect | null, windowHeight: number, isMobile: boolean) => void;
 }
 
 // Global coordinator for stack card scrolling and resizing to prevent forced reflows (layout thrashing)
@@ -20,10 +20,14 @@ let globalScrollRaf: number | null = null;
 let listenersRegistered = false;
 
 const runGlobalUpdate = () => {
+  // Single read of viewport dimensions — no further reads after this
   const windowHeight = window.innerHeight;
   const isMobile = window.innerWidth <= 767;
 
-  // 1. Read phase: get rects of next elements first (batched)
+  // On desktop, stacking transform/effects are disabled; skip all geometry reads & updates
+  if (!isMobile) return;
+
+  // Read phase: batch all geometry reads
   const updates: Array<{
     instance: CardInstance;
     nextRect: DOMRect | null;
@@ -44,9 +48,9 @@ const runGlobalUpdate = () => {
     }
   }
 
-  // 2. Write phase: update styles (batched)
+  // Write phase: update styles (no geometry reads after this point)
   for (const { instance, nextRect } of updates) {
-    instance.updateScroll(nextRect, windowHeight);
+    instance.updateScroll(nextRect, windowHeight, isMobile);
   }
 };
 
@@ -64,16 +68,9 @@ const globalResizeHandler = () => {
   const windowHeight = window.innerHeight;
   const isMobile = window.innerWidth <= 767;
 
-  // 1. Read phase: get heights of all cards
-  const heights = new Map<CardInstance, number>();
+  // Write phase: use cached heights (updated by ResizeObserver, no forced reads)
   for (const instance of activeCards) {
-    heights.set(instance, instance.getHeight());
-  }
-
-  // 2. Write phase: update styles
-  for (const instance of activeCards) {
-    const height = heights.get(instance) || 0;
-    instance.updateStickyTop(height, windowHeight, isMobile);
+    instance.updateStickyTop(instance.cachedHeight, windowHeight, isMobile);
   }
 
   triggerGlobalUpdate();
@@ -109,9 +106,8 @@ const StackCard: React.FC<StackCardProps> = ({ children, zIndex, className = "" 
 
     const card = cardRef.current;
 
-    const getHeight = () => {
-      return card.offsetHeight;
-    };
+    // Height is cached via ResizeObserver — no forced layout read
+    let cachedHeight = card.offsetHeight;
 
     const updateStickyTop = (height: number, windowHeight: number, isMobile: boolean) => {
       if (card.classList.contains("stack-card-combined")) {
@@ -128,8 +124,8 @@ const StackCard: React.FC<StackCardProps> = ({ children, zIndex, className = "" 
 
     const getNextCard = () => card.nextElementSibling as HTMLElement;
 
-    const updateScroll = (nextRect: DOMRect | null, windowHeight: number) => {
-      if (window.innerWidth > 767) {
+    const updateScroll = (nextRect: DOMRect | null, windowHeight: number, isMobile: boolean) => {
+      if (!isMobile) {
         card.style.transform = "";
         card.style.filter = "";
         card.style.transformOrigin = "";
@@ -184,15 +180,23 @@ const StackCard: React.FC<StackCardProps> = ({ children, zIndex, className = "" 
 
     const instance: CardInstance = {
       card,
-      getHeight,
+      cachedHeight,
+      getNextCard,
       updateStickyTop,
       updateScroll,
-      getNextCard,
     };
 
     registerCardInstance(instance);
 
-    const observer = new ResizeObserver(() => {
+    const observer = new ResizeObserver((entries) => {
+      // Update cached height from ResizeObserver (no forced reflow)
+      for (const entry of entries) {
+        if (entry.borderBoxSize?.length) {
+          instance.cachedHeight = entry.borderBoxSize[0].blockSize;
+        } else {
+          instance.cachedHeight = entry.contentRect.height;
+        }
+      }
       globalResizeHandler();
     });
     observer.observe(card);

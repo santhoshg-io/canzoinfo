@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
@@ -14,7 +14,6 @@ const gradients = [
 
 const OurWorkSection = () => {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [isPaused, setIsPaused] = useState(false);
 
   const scroll = (dir: "left" | "right") => {
     const container = containerRef.current;
@@ -25,52 +24,7 @@ const OurWorkSection = () => {
     });
   };
 
-  useEffect(() => {
-    let animId: number;
-    let maxScroll = 0;
-
-    const measureScroll = () => {
-      const container = containerRef.current;
-      if (container) {
-        maxScroll = container.scrollWidth - container.clientWidth;
-      }
-    };
-
-
-    const container = containerRef.current;
-    let observer: ResizeObserver | null = null;
-
-    if (container) {
-      observer = new ResizeObserver(() => {
-        measureScroll();
-      });
-      observer.observe(container);
-      container.addEventListener("load", measureScroll, { capture: true, passive: true });
-    }
-
-    const step = () => {
-      const container = containerRef.current;
-      if (container && !isPaused && maxScroll > 0) {
-        if (container.scrollLeft >= maxScroll - 2) {
-          container.scrollLeft = 0;
-        } else {
-          container.scrollLeft += 0.6;
-        }
-      }
-      animId = requestAnimationFrame(step);
-    };
-    animId = requestAnimationFrame(step);
-
-    return () => {
-      cancelAnimationFrame(animId);
-      if (observer) {
-        observer.disconnect();
-      }
-      if (container) {
-        container.removeEventListener("load", measureScroll, { capture: true });
-      }
-    };
-  }, [isPaused]);
+  // Clean native smooth scrolling via containerRef buttons and user scroll
 
   return (
     <section id="our-work" className="py-section bg-[#f4f2eb]">
@@ -107,10 +61,6 @@ const OurWorkSection = () => {
         <div
           ref={containerRef}
           className="flex gap-5 overflow-x-auto pb-6 scrollbar-hide"
-          onMouseEnter={() => setIsPaused(true)}
-          onMouseLeave={() => setIsPaused(false)}
-          onTouchStart={() => setIsPaused(true)}
-          onTouchEnd={() => setIsPaused(false)}
         >
           {works.map((work, i) => (
             <motion.div

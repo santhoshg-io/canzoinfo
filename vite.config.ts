@@ -1,7 +1,7 @@
 import { defineConfig, Plugin } from "vite";
 import react from "@vitejs/plugin-react-swc";
 import path from "path";
-import { processSmtpEmail } from "./api/send-email";
+import { processSmtpEmail, verifyCsrf, rateLimitIp } from "./api/send-email";
 
 function smtpApiDevPlugin(): Plugin {
   return {
@@ -11,6 +11,24 @@ function smtpApiDevPlugin(): Plugin {
         if (req.method !== "POST") {
           res.statusCode = 405;
           res.end(JSON.stringify({ success: false, message: "Method Not Allowed" }));
+          return;
+        }
+
+        // Dev CSRF validation
+        if (!verifyCsrf(req.headers)) {
+          res.statusCode = 403;
+          res.setHeader("Content-Type", "application/json");
+          res.end(JSON.stringify({ success: false, message: "Forbidden: CSRF check failed." }));
+          return;
+        }
+
+        // Dev IP rate limiting
+        const ip = req.headers["x-forwarded-for"] || req.socket?.remoteAddress || "anonymous";
+        const cleanIp = typeof ip === "string" ? ip.split(",")[0].trim() : "anonymous";
+        if (!rateLimitIp(cleanIp, 5, 60000)) {
+          res.statusCode = 429;
+          res.setHeader("Content-Type", "application/json");
+          res.end(JSON.stringify({ success: false, message: "Too many requests. Please try again later." }));
           return;
         }
 
@@ -71,6 +89,8 @@ export default defineConfig(({ mode }) => ({
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
           'vendor-framer': ['framer-motion'],
           'vendor-icons': ['lucide-react'],
+          'vendor-swiper': ['swiper'],
+          'vendor-query': ['@tanstack/react-query'],
         },
       },
     },

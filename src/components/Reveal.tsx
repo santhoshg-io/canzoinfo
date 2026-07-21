@@ -1,14 +1,4 @@
-import { motion, type Variants } from "framer-motion";
-import { ReactNode } from "react";
-
-const variants: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] },
-  },
-};
+import { useEffect, useRef, useState, ReactNode } from "react";
 
 interface RevealProps {
   children: ReactNode;
@@ -17,20 +7,41 @@ interface RevealProps {
   as?: "div" | "section" | "li";
 }
 
-const Reveal = ({ children, className, delay = 0, as = "div" }: RevealProps) => {
-  const MotionTag = motion[as] as typeof motion.div;
+const Reveal = ({ children, className = "", delay = 0, as: Component = "div" }: RevealProps) => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1, rootMargin: "50px" }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <MotionTag
-      className={className}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.15 }}
-      variants={variants}
-      transition={{ delay }}
-      style={{ willChange: "transform, opacity" }}
+    <Component
+      ref={ref as any}
+      className={`transition-all duration-700 ease-out ${className} ${
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+      }`}
+      style={{
+        transitionDelay: `${delay}s`,
+        willChange: isVisible ? "auto" : "transform, opacity",
+      }}
     >
       {children}
-    </MotionTag>
+    </Component>
   );
 };
 

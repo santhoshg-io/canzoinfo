@@ -74,14 +74,13 @@ const HeroSection = () => {
     return () => clearInterval(timer);
   }, []);
 
-  // INTRO → PLAYING: after 2 seconds, start video
+  // INTRO → PLAYING: Start video buffering immediately on mount to eliminate load delay
   useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().catch(() => {});
+    }
     const timer = setTimeout(() => {
       setPhase("playing");
-      if (videoRef.current) {
-        videoRef.current.currentTime = 0;
-        videoRef.current.play().catch(() => {});
-      }
     }, 2000);
     return () => clearTimeout(timer);
   }, []);
@@ -162,6 +161,7 @@ const HeroSection = () => {
               playsInline
               preload="auto"
               fetchPriority="high"
+              {...({ fetchpriority: "high" } as any)}
               onEnded={handleVideoEnded}
               className={`w-full h-full object-cover transition-opacity duration-1000 ${showVideo ? "opacity-70" : "opacity-0"}`}
             />
@@ -182,14 +182,17 @@ const HeroSection = () => {
                   aspectRatio: "1778/634" 
                 }}
               >
-                <img 
-                  src="/logohero.webp" 
-                  alt="Canzo Logo" 
-                  className="w-full h-full object-contain" 
-                  width="1778"
-                  height="634"
-                  fetchPriority="high"
-                />
+                <picture>
+                  <source srcSet="/logohero.avif" type="image/avif" />
+                  <img 
+                    src="/logohero.webp" 
+                    alt="Canzo Logo" 
+                    className="w-full h-full object-contain" 
+                    width="425"
+                    height="152"
+                    fetchPriority="high"
+                  />
+                </picture>
                 
                 {/* Real-time Clock overlay */}
                 <div 
