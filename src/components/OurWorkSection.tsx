@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
@@ -24,7 +24,64 @@ const OurWorkSection = () => {
     });
   };
 
-  // Clean native smooth scrolling via containerRef buttons and user scroll
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    let animationFrameId: number;
+    let isHovered = false;
+
+    const handleMouseEnter = () => {
+      isHovered = true;
+    };
+    const handleMouseLeave = () => {
+      isHovered = false;
+    };
+
+    container.addEventListener("mouseenter", handleMouseEnter);
+    container.addEventListener("mouseleave", handleMouseLeave);
+    container.addEventListener("touchstart", handleMouseEnter, { passive: true });
+    container.addEventListener("touchend", handleMouseLeave, { passive: true });
+
+    const speed = 0.8; // px per frame (adjust for scrolling speed)
+
+    const step = () => {
+      if (container) {
+        if (!isHovered) {
+          // Calculate the exact width of a single set of works based on the offset of the duplicated set
+          const firstCardOfSecondSet = container.children[works.length] as HTMLElement;
+          const firstCardOfFirstSet = container.children[0] as HTMLElement;
+          if (firstCardOfSecondSet && firstCardOfFirstSet) {
+            const setWidth = firstCardOfSecondSet.offsetLeft - firstCardOfFirstSet.offsetLeft;
+            if (container.scrollLeft >= setWidth) {
+              container.scrollLeft -= setWidth;
+            } else {
+              container.scrollLeft += speed;
+            }
+          } else {
+            // Fallback scroll
+            container.scrollLeft += speed;
+          }
+        }
+      }
+      animationFrameId = requestAnimationFrame(step);
+    };
+
+    animationFrameId = requestAnimationFrame(step);
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      if (container) {
+        container.removeEventListener("mouseenter", handleMouseEnter);
+        container.removeEventListener("mouseleave", handleMouseLeave);
+        container.removeEventListener("touchstart", handleMouseEnter);
+        container.removeEventListener("touchend", handleMouseLeave);
+      }
+    };
+  }, []);
+
+  // Triple the works array so there's always enough content to scroll seamlessly
+  const triplicatedWorks = [...works, ...works, ...works];
 
   return (
     <section id="our-work" className="py-section bg-[#f4f2eb]">
@@ -62,9 +119,9 @@ const OurWorkSection = () => {
           ref={containerRef}
           className="flex gap-5 overflow-x-auto pb-6 scrollbar-hide"
         >
-          {works.map((work, i) => (
+          {triplicatedWorks.map((work, i) => (
             <motion.div
-              key={work.slug}
+              key={`${work.slug}-${i}`}
               whileHover={{ y: -8 }}
               transition={{ type: "spring", stiffness: 300, damping: 20 }}
               className="flex-shrink-0 w-[min(85vw,340px)] min-h-[260px] rounded-2xl overflow-hidden relative cursor-pointer group bg-muted"
