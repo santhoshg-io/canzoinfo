@@ -28,8 +28,21 @@ const OurWorkSection = () => {
     const container = containerRef.current;
     if (!container) return;
 
+    // Disable JS auto-scroll on mobile devices to prevent touch lag & layout thrashing
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+    if (isMobile) return;
+
     let animationFrameId: number;
     let isHovered = false;
+    let isVisible = false;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+      },
+      { threshold: 0.1 }
+    );
+    observer.observe(container);
 
     const handleMouseEnter = () => {
       isHovered = true;
@@ -40,28 +53,22 @@ const OurWorkSection = () => {
 
     container.addEventListener("mouseenter", handleMouseEnter);
     container.addEventListener("mouseleave", handleMouseLeave);
-    container.addEventListener("touchstart", handleMouseEnter, { passive: true });
-    container.addEventListener("touchend", handleMouseLeave, { passive: true });
 
-    const speed = 0.8; // px per frame (adjust for scrolling speed)
+    const speed = 0.8;
 
     const step = () => {
-      if (container) {
-        if (!isHovered) {
-          // Calculate the exact width of a single set of works based on the offset of the duplicated set
-          const firstCardOfSecondSet = container.children[works.length] as HTMLElement;
-          const firstCardOfFirstSet = container.children[0] as HTMLElement;
-          if (firstCardOfSecondSet && firstCardOfFirstSet) {
-            const setWidth = firstCardOfSecondSet.offsetLeft - firstCardOfFirstSet.offsetLeft;
-            if (container.scrollLeft >= setWidth) {
-              container.scrollLeft -= setWidth;
-            } else {
-              container.scrollLeft += speed;
-            }
+      if (container && isVisible && !isHovered) {
+        const firstCardOfSecondSet = container.children[works.length] as HTMLElement;
+        const firstCardOfFirstSet = container.children[0] as HTMLElement;
+        if (firstCardOfSecondSet && firstCardOfFirstSet) {
+          const setWidth = firstCardOfSecondSet.offsetLeft - firstCardOfFirstSet.offsetLeft;
+          if (container.scrollLeft >= setWidth) {
+            container.scrollLeft -= setWidth;
           } else {
-            // Fallback scroll
             container.scrollLeft += speed;
           }
+        } else {
+          container.scrollLeft += speed;
         }
       }
       animationFrameId = requestAnimationFrame(step);
@@ -71,11 +78,10 @@ const OurWorkSection = () => {
 
     return () => {
       cancelAnimationFrame(animationFrameId);
+      observer.disconnect();
       if (container) {
         container.removeEventListener("mouseenter", handleMouseEnter);
         container.removeEventListener("mouseleave", handleMouseLeave);
-        container.removeEventListener("touchstart", handleMouseEnter);
-        container.removeEventListener("touchend", handleMouseLeave);
       }
     };
   }, []);

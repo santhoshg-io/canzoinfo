@@ -140,18 +140,18 @@ const MobilePhoneShowcase = () => {
     >
       {/* LEFT PHONE — starts behind center, slides left */}
       <motion.div
-        initial={{ x: 0, y: 0, opacity: 0.45, scale: 0.80, rotate: 0 }}
+        initial={{ x: 0, y: 0, opacity: 0.45, scale: 0.80 }}
         animate={
           inView
-            ? { x: -100, y: -15, opacity: 1, scale: 0.90, rotate: 0 }
-            : { x: 0, y: 0, opacity: 0.45, scale: 0.80, rotate: 0 }
+            ? { x: -85, y: -10, opacity: 1, scale: 0.90 }
+            : { x: 0, y: 0, opacity: 0.45, scale: 0.80 }
         }
         transition={{ ...spring, delay: 0.06 }}
-        className="absolute bottom-0"
+        className="absolute bottom-0 shadow-xl rounded-[2.2rem]"
         style={{
           zIndex: 1,
           transformOrigin: "bottom center",
-          filter: "drop-shadow(-10px 18px 36px rgba(0,0,0,0.40))",
+          willChange: "transform, opacity",
         }}
       >
         <SidePhone imageSrc={appScreen3} />
@@ -159,18 +159,18 @@ const MobilePhoneShowcase = () => {
 
       {/* RIGHT PHONE — starts behind center, slides right */}
       <motion.div
-        initial={{ x: 0, y: 0, opacity: 0.45, scale: 0.80, rotate: 0 }}
+        initial={{ x: 0, y: 0, opacity: 0.45, scale: 0.80 }}
         animate={
           inView
-            ? { x: 100, y: -15, opacity: 1, scale: 0.90, rotate: 0 }
-            : { x: 0, y: 0, opacity: 0.45, scale: 0.80, rotate: 0 }
+            ? { x: 85, y: -10, opacity: 1, scale: 0.90 }
+            : { x: 0, y: 0, opacity: 0.45, scale: 0.80 }
         }
         transition={{ ...spring, delay: 0.06 }}
-        className="absolute bottom-0"
+        className="absolute bottom-0 shadow-xl rounded-[2.2rem]"
         style={{
           zIndex: 1,
           transformOrigin: "bottom center",
-          filter: "drop-shadow(10px 18px 36px rgba(0,0,0,0.40))",
+          willChange: "transform, opacity",
         }}
       >
         <SidePhone imageSrc={appScreen2} />
@@ -181,12 +181,11 @@ const MobilePhoneShowcase = () => {
         initial={{ scale: 0.88, opacity: 0 }}
         animate={inView ? { scale: 1, opacity: 1 } : { scale: 0.88, opacity: 0 }}
         transition={{ ...spring, delay: 0 }}
-        className="absolute bottom-0"
+        className="absolute bottom-0 shadow-2xl rounded-[2.5rem]"
         style={{
           zIndex: 10,
           transformOrigin: "bottom center",
-          filter:
-            "drop-shadow(0 28px 52px rgba(0,0,0,0.55)) drop-shadow(0 6px 14px rgba(0,0,0,0.28))",
+          willChange: "transform, opacity",
         }}
       >
         <CenterPhone imageSrc={appScreen} />
