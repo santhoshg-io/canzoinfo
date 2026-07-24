@@ -6,7 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import ScrollToTop from "./components/ScrollToTop";
-import { Agentation } from "agentation";
+const DevTools = lazy(() => import("agentation").then((m) => ({ default: m.Agentation })));
 
 const Index = lazy(() => import("./pages/Index"));
 const StudentPage = lazy(() => import("./pages/StudentPage"));
@@ -64,7 +64,11 @@ const App = () => (
           </main>
         </div>
       </BrowserRouter>
-      {import.meta.env.DEV && <Agentation />}
+      {import.meta.env.DEV && (
+        <Suspense fallback={null}>
+          <DevTools />
+        </Suspense>
+      )}
     </TooltipProvider>
   </QueryClientProvider>
 );

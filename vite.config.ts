@@ -85,12 +85,24 @@ export default defineConfig(({ mode }) => ({
     minify: 'esbuild',
     rollupOptions: {
       output: {
-        manualChunks: {
-          'vendor-react': ['react', 'react-dom', 'react-router-dom'],
-          'vendor-framer': ['framer-motion'],
-          'vendor-icons': ['lucide-react'],
-          'vendor-swiper': ['swiper'],
-          'vendor-query': ['@tanstack/react-query'],
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            if (id.includes("react-dom") || id.includes("react-router-dom") || id.includes("react")) {
+              return "vendor-core";
+            }
+            if (id.includes("framer-motion")) {
+              return "vendor-framer";
+            }
+            if (id.includes("lucide-react")) {
+              return "vendor-icons";
+            }
+            if (id.includes("swiper")) {
+              return "vendor-swiper";
+            }
+            if (id.includes("@radix-ui") || id.includes("cmdk")) {
+              return "vendor-ui";
+            }
+          }
         },
       },
     },
