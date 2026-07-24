@@ -1,5 +1,5 @@
 
-import canzoLogo from "@/assets/canzo-logo.webp";
+const canzoLogo = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784897074/canzo_official_logo_vrruce.png";
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";

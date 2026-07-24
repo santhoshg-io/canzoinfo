@@ -3,9 +3,9 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-import cardStudents from "@/assets/cardstudent.webp";
-import cardCanteen from "@/assets/cardcanteen.webp";
-import cardInternship from "@/assets/intership.webp";
+const cardStudents = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784896299/cardstudent_bflnlz.png";
+const cardCanteen = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784896296/cardcanteen_h7gwkz.png";
+const cardInternship = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784896300/intership_vbokam.png";
 
 import StackCard from "./StackCard";
 
@@ -183,9 +183,9 @@ const HeroSection = () => {
                 }}
               >
                 <picture>
-                  <source srcSet="/logohero.avif" type="image/avif" />
+                  <source srcSet="https://res.cloudinary.com/odxzrb9z/image/upload/v1784897462/logohero_lgn1ij.png" type="image/png" />
                   <img 
-                    src="/logohero.webp" 
+                    src="https://res.cloudinary.com/odxzrb9z/image/upload/v1784897462/logohero_lgn1ij.png" 
                     alt="Canzo Logo" 
                     className="w-full h-full object-contain" 
                     width="425"

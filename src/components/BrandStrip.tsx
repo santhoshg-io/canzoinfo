@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import canzoLogo from "@/assets/canzo-logo.webp";
+const canzoLogo = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784897074/canzo_official_logo_vrruce.png";
 
 /* Animated clock hands rendered inside a 100x100 viewBox */
 const ClockHands = () => {

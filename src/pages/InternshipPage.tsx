@@ -3,9 +3,6 @@ import { ArrowLeft, ArrowRight, Award, Briefcase, BookOpen, Users, Rocket } from
 import { Link } from "react-router-dom";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { certificates } from "@/data/certificates";
-
-const interns = Object.values(certificates);
 
 const highlights = [
   { icon: Briefcase, title: "Real-World Experience", desc: "Work on live projects that impact thousands of students across campuses." },
@@ -81,49 +78,7 @@ const InternshipPage = () => (
           ))}
         </div>
 
-        {/* Our Interns Showcase */}
-        <motion.div {...fadeUp} className="mb-20">
-          <h2 className="text-2xl sm:text-3xl font-display font-bold mb-3 text-center">
-            Meet Our <span className="text-gradient">Interns</span>
-          </h2>
-          <p className="text-sm text-muted-foreground text-center mb-10 max-w-lg mx-auto">
-            These talented students have completed their internship with Canzo and are now part of our alumni network.
-          </p>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {interns.map((intern, i) => (
-              <motion.div
-                key={intern.id}
-                {...fadeUp}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="group relative rounded-2xl bg-card border border-border overflow-hidden hover:border-accent/40 hover:shadow-lg hover:shadow-accent/5 transition-all duration-300"
-              >
-                {/* Accent top bar */}
-                <div className="h-1 bg-gradient-to-r from-accent via-amber-500 to-accent" />
 
-                <div className="p-6 flex items-center gap-4 text-left">
-                  {/* Photo */}
-                  {intern.photoUrl && (
-                    <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-accent/20 shadow-md group-hover:border-accent/50 transition-colors shrink-0">
-                      <img
-                        src={intern.photoUrl}
-                        alt={intern.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                  )}
-
-                  <div>
-                    {/* Name */}
-                    <h3 className="font-display font-bold text-foreground text-base">{intern.name}</h3>
-
-                    {/* College */}
-                    <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{intern.college}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
 
         {/* FAQs */}
         <motion.div {...fadeUp} className="max-w-2xl mx-auto mb-16">

@@ -1,15 +1,15 @@
-import alleasa from "@/assets/work/alleasa.jpeg";
-import certificate from "@/assets/work/certificate.webp";
-import certiv from "@/assets/work/certiv.webp";
-import hindulive from "@/assets/work/hindulive.webp";
-import kg1 from "@/assets/work/kg1.webp";
-import kg2 from "@/assets/work/kg2.webp";
-import kg3 from "@/assets/work/kg3.webp";
-import letter from "@/assets/work/letter.webp";
-import letternew from "@/assets/work/letternew.webp";
-import std1 from "@/assets/work/std1.jpeg";
-import std2 from "@/assets/work/std2.jpeg";
-import threeinkg from "@/assets/work/threeinkg.jpeg";
+const alleasa = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784898197/alleasa_fhd71c.jpg";
+const certificate = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784898207/certificate_epq1xa.png";
+const certiv = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784898208/certiv_irbaxr.png";
+const hindulive = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784898210/hindulive_unpf97.png";
+const kg1 = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784899415/kg1_yzw7bu.jpg";
+const kg2 = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784899419/kg2_jvmwgn.jpg";
+const kg3 = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784899419/kg3_b2fjuo.jpg";
+const letter = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784898219/letter_rnzqzt.png";
+const letternew = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784898221/letternew_xxapw2.png";
+const std1 = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784898209/std1_f7lvlf.jpg";
+const std2 = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784898210/std2_aqrmog.jpg";
+const threeinkg = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784898210/threeinkg_vi09xz.jpg";
 
 export const IMG = {
   alleasa,

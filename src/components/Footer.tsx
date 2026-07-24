@@ -1,5 +1,5 @@
 import { Linkedin, Instagram, MapPin } from "lucide-react";
-import canzoLogo from "@/assets/canzo-logo.webp";
+const canzoLogo = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784897074/canzo_official_logo_vrruce.png";
 
 const socials = [
   { href: "https://www.linkedin.com/company/canzo-in/", label: "LinkedIn", Icon: Linkedin },

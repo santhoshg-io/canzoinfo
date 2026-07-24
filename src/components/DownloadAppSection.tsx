@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-import appScreen from "@/assets/work/web6.jpeg";
-import appScreen2 from "@/assets/work/web5.webp";
-import appScreen3 from "@/assets/work/web7.webp";
+const appScreen = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784897699/web6_wkypst.jpg";
+const appScreen2 = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784897755/web5_v6mbka.png";
+const appScreen3 = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784897752/web7_fpvp3h.png";
 
 const PLAY_URL = "https://play.google.com/store/apps/details?id=canzo.in";
 const QR_URL = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data=${encodeURIComponent(
