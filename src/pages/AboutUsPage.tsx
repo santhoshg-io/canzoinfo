@@ -5,9 +5,9 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import StackCard from "@/components/StackCard";
 
-const ceoVikramImg = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784898289/ceo-vikram_brngqm.png";
-const jintoImg = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784898708/jinto_ftpejm.png";
-const ajithImg = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784898268/ajith_pxhbuz.jpg";
+const ceoVikramImg = "https://res.cloudinary.com/odxzrb9z/image/upload/f_auto,q_auto:best/v1784898289/ceo-vikram_brngqm.png";
+const jintoImg = "https://res.cloudinary.com/odxzrb9z/image/upload/f_auto,q_auto:best/v1784898708/jinto_ftpejm.png";
+const ajithImg = "https://res.cloudinary.com/odxzrb9z/image/upload/f_auto,q_auto:best/v1784898268/ajith_pxhbuz.jpg";
 
 const fadeUp = {
   initial: { opacity: 0, y: 30 },

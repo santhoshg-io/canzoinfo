@@ -3,9 +3,9 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-const cardStudents = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784896299/cardstudent_bflnlz.png";
-const cardCanteen = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784896296/cardcanteen_h7gwkz.png";
-const cardInternship = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784896300/intership_vbokam.png";
+const cardStudents = "https://res.cloudinary.com/odxzrb9z/image/upload/f_auto,q_auto:best/v1784896299/cardstudent_bflnlz.png";
+const cardCanteen = "https://res.cloudinary.com/odxzrb9z/image/upload/f_auto,q_auto:best/v1784896296/cardcanteen_h7gwkz.png";
+const cardInternship = "https://res.cloudinary.com/odxzrb9z/image/upload/f_auto,q_auto:best/v1784896300/intership_vbokam.png";
 
 import StackCard from "./StackCard";
 
@@ -182,9 +182,9 @@ const HeroSection = () => {
                 }}
               >
                 <picture>
-                  <source srcSet="https://res.cloudinary.com/odxzrb9z/image/upload/v1784897462/logohero_lgn1ij.png" type="image/png" />
+                  <source srcSet="https://res.cloudinary.com/odxzrb9z/image/upload/f_auto,q_auto:best/v1784897462/logohero_lgn1ij.png" type="image/png" />
                   <img 
-                    src="https://res.cloudinary.com/odxzrb9z/image/upload/v1784897462/logohero_lgn1ij.png" 
+                    src="https://res.cloudinary.com/odxzrb9z/image/upload/f_auto,q_auto:best/v1784897462/logohero_lgn1ij.png" 
                     alt="Canzo Logo" 
                     className="w-full h-full object-contain" 
                     width="425"

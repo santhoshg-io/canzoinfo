@@ -5,9 +5,9 @@ import { EffectCoverflow, Autoplay } from "swiper/modules";
 import type { Swiper as SwiperClass } from "swiper";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
-const web6 = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784897699/web6_wkypst.jpg";
-const web7 = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784897752/web7_fpvp3h.png";
-const web5 = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784897755/web5_v6mbka.png";
+const web6 = "https://res.cloudinary.com/odxzrb9z/image/upload/f_auto,q_auto:best/v1784897699/web6_wkypst.jpg";
+const web7 = "https://res.cloudinary.com/odxzrb9z/image/upload/f_auto,q_auto:best/v1784897752/web7_fpvp3h.png";
+const web5 = "https://res.cloudinary.com/odxzrb9z/image/upload/f_auto,q_auto:best/v1784897755/web5_v6mbka.png";
 
 // Initial state must render as: Left = Canteens, Center = Sign In, Right = Cart.
 const screenshots = [

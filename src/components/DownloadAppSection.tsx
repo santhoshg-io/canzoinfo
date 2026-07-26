@@ -1,11 +1,11 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
-const appScreen = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784897699/web6_wkypst.jpg";
-const appScreen2 = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784897755/web5_v6mbka.png";
-const appScreen3 = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784897752/web7_fpvp3h.png";
+const appScreen = "https://res.cloudinary.com/odxzrb9z/image/upload/f_auto,q_auto:best/v1784897699/web6_wkypst.jpg";
+const appScreen2 = "https://res.cloudinary.com/odxzrb9z/image/upload/f_auto,q_auto:best/v1784897755/web5_v6mbka.png";
+const appScreen3 = "https://res.cloudinary.com/odxzrb9z/image/upload/f_auto,q_auto:best/v1784897752/web7_fpvp3h.png";
 
 const PLAY_URL = "https://play.google.com/store/apps/details?id=canzo.in";
-const QR_URL = "https://res.cloudinary.com/odxzrb9z/image/upload/v1785035229/1F666DF6-5005-4A40-85BE-79D097813468_gbhusb.png";
+const QR_URL = "https://res.cloudinary.com/odxzrb9z/image/upload/f_auto,q_auto:best/v1785035229/1F666DF6-5005-4A40-85BE-79D097813468_gbhusb.png";
 
 const PlayStoreBadge = () => (
   <a
