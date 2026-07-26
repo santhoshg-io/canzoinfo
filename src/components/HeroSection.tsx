@@ -160,7 +160,6 @@ const HeroSection = () => {
               muted 
               playsInline
               preload="auto"
-              fetchPriority="high"
               {...({ fetchpriority: "high" } as any)}
               onEnded={handleVideoEnded}
               className={`w-full h-full object-cover transition-opacity duration-1000 ${showVideo ? "opacity-70" : "opacity-0"}`}
@@ -190,7 +189,7 @@ const HeroSection = () => {
                     className="w-full h-full object-contain" 
                     width="425"
                     height="152"
-                    fetchPriority="high"
+                    {...({ fetchpriority: "high" } as any)}
                   />
                 </picture>
                 

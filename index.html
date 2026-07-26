@@ -7,7 +7,7 @@
     <meta name="referrer" content="strict-origin-when-cross-origin" />
 
     <!-- Content Security Policy (Fallback) -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://scripts.clarity.ms https://www.clarity.ms; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://www.google-analytics.com https://*.clarity.ms https://scripts.clarity.ms; frame-ancestors 'none'; object-src 'none'; base-uri 'self';">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://scripts.clarity.ms https://www.clarity.ms; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https: blob:; connect-src 'self' https://www.google-analytics.com https://*.clarity.ms https://scripts.clarity.ms; object-src 'none'; base-uri 'self';">
 
     <title>Canzo — Smart Campus Canteen Ordering</title>
     <meta name="description" content="Order food from your campus canteen instantly. Skip queues, browse menus, and pick up when ready.">
@@ -26,7 +26,6 @@
     <!-- Preconnect to critical third-party origins -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="preconnect" href="https://scripts.clarity.ms" crossorigin />
     <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
 
     <!-- Google Fonts stylesheet (Non-render-blocking asynchronous load) -->
@@ -35,17 +34,13 @@
       <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Space+Grotesk:wght@300..700&display=swap" />
     </noscript>
 
-    <!-- Preload Hero LCP Image -->
-    <link rel="preload" href="/logohero.avif" as="image" type="image/avif" fetchpriority="high" />
-    
-    <!-- Preload Hero LCP Video -->
-    <link rel="preload" href="/hero1.webm" as="video" type="video/webm" fetchpriority="high" />
 
     <!-- Deferred Analytics Loader (Non-blocking performance optimization) -->
     <script type="text/javascript">
       (function() {
         var analyticsInitialized = false;
         function initAnalytics() {
+          if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') return;
           if (analyticsInitialized) return;
           analyticsInitialized = true;
 
@@ -53,7 +48,6 @@
           window.removeEventListener('scroll', initAnalytics);
           window.removeEventListener('click', initAnalytics);
           window.removeEventListener('touchstart', initAnalytics);
-          window.removeEventListener('mousemove', initAnalytics);
 
           // Google Tag Manager / Analytics (GA4)
           var gaScript = document.createElement('script');
@@ -67,28 +61,26 @@
           gtag('js', new Date());
           gtag('config', 'G-CLS57TPR09');
 
-          // Microsoft Clarity
-          (function(c,l,a,r,i,t,y){
-              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-              t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-          })(window, document, "clarity", "script", "x9hh3n1iq9");
+          // Microsoft Clarity — deferred load to reduce XHR telemetry spam
+          setTimeout(function() {
+            (function(c,l,a,r,i,t,y){
+                c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+                t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+                y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+            })(window, document, "clarity", "script", "x9hh3n1iq9");
+
+            // Configure Clarity for lean telemetry (reduces repeated XHR calls)
+            window.clarity("set", "lean", true);
+          }, 3000);
         }
 
-        // Trigger on interaction
-        window.addEventListener('scroll', initAnalytics, { passive: true });
-        window.addEventListener('click', initAnalytics, { passive: true });
-        window.addEventListener('touchstart', initAnalytics, { passive: true });
-        window.addEventListener('mousemove', initAnalytics, { passive: true });
+        // Trigger on meaningful interaction only (removed mousemove — too aggressive)
+        window.addEventListener('scroll', initAnalytics, { passive: true, once: true });
+        window.addEventListener('click', initAnalytics, { passive: true, once: true });
+        window.addEventListener('touchstart', initAnalytics, { passive: true, once: true });
 
-        // Fallback after idle or timeout
-        if ('requestIdleCallback' in window) {
-          window.requestIdleCallback(function() {
-            setTimeout(initAnalytics, 3000);
-          });
-        } else {
-          setTimeout(initAnalytics, 4000);
-        }
+        // Fallback: load after 8 seconds regardless
+        setTimeout(initAnalytics, 8000);
       })();
     </script>
   </head>

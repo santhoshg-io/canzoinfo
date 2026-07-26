@@ -5,9 +5,7 @@ const appScreen2 = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784897755
 const appScreen3 = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784897752/web7_fpvp3h.png";
 
 const PLAY_URL = "https://play.google.com/store/apps/details?id=canzo.in";
-const QR_URL = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data=${encodeURIComponent(
-  PLAY_URL
-)}`;
+const QR_URL = "https://res.cloudinary.com/odxzrb9z/image/upload/v1785035229/1F666DF6-5005-4A40-85BE-79D097813468_gbhusb.png";
 
 const PlayStoreBadge = () => (
   <a

@@ -11,7 +11,7 @@ const std1 = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784898209/std1_
 const std2 = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784898210/std2_aqrmog.jpg";
 const threeinkg = "https://res.cloudinary.com/odxzrb9z/image/upload/v1784898210/threeinkg_vi09xz.jpg";
 
-export const IMG = {
+const IMG = {
   alleasa,
   certificate,
   certiv,
@@ -24,10 +24,9 @@ export const IMG = {
   std1,
   std2,
   threeinkg,
-  allinkg: kg1,
 };
 
-export type WorkSection =
+type WorkSection =
   | { kind: "paragraph"; text: string }
   | { kind: "heading"; text: string }
   | { kind: "list"; items: string[] }
