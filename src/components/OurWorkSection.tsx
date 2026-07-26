@@ -1,8 +1,13 @@
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import { works } from "@/data/works";
+
+import { Swiper, SwiperSlide } from "swiper/react";
+import type { Swiper as SwiperClass } from "swiper";
+import { Autoplay } from "swiper/modules";
+import "swiper/css";
 
 const gradients = [
   "from-amber-600/80 to-orange-900/90",
@@ -13,84 +18,20 @@ const gradients = [
 ];
 
 const OurWorkSection = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const swiperRef = useRef<SwiperClass | null>(null);
 
   const scroll = (dir: "left" | "right") => {
-    const container = containerRef.current;
-    if (!container) return;
-    container.scrollTo({
-      left: container.scrollLeft + (dir === "left" ? -340 : 340),
-      behavior: "smooth",
-    });
+    if (swiperRef.current) {
+      if (dir === "left") {
+        swiperRef.current.slidePrev();
+      } else {
+        swiperRef.current.slideNext();
+      }
+    }
   };
 
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    // Disable JS auto-scroll on mobile devices to prevent touch lag & layout thrashing
-    const isMobile = window.matchMedia("(max-width: 768px)").matches;
-    if (isMobile) return;
-
-    let animationFrameId: number;
-    let isHovered = false;
-    let isVisible = false;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        isVisible = entry.isIntersecting;
-      },
-      { threshold: 0.1 }
-    );
-    observer.observe(container);
-
-    const handleMouseEnter = () => {
-      isHovered = true;
-    };
-    const handleMouseLeave = () => {
-      isHovered = false;
-    };
-
-    container.addEventListener("mouseenter", handleMouseEnter);
-    container.addEventListener("mouseleave", handleMouseLeave);
-
-    const speed = 0.8;
-
-    const step = () => {
-      if (container && isVisible && !isHovered) {
-        const firstCardOfSecondSet = container.children[works.length] as HTMLElement;
-        const firstCardOfFirstSet = container.children[0] as HTMLElement;
-        if (firstCardOfSecondSet && firstCardOfFirstSet) {
-          const setWidth = firstCardOfSecondSet.offsetLeft - firstCardOfFirstSet.offsetLeft;
-          if (container.scrollLeft >= setWidth) {
-            container.scrollLeft -= setWidth;
-          } else {
-            container.scrollLeft += speed;
-          }
-        } else {
-          container.scrollLeft += speed;
-        }
-      }
-      animationFrameId = requestAnimationFrame(step);
-    };
-
-    animationFrameId = requestAnimationFrame(step);
-
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-      observer.disconnect();
-      if (container) {
-        container.removeEventListener("mouseenter", handleMouseEnter);
-        container.removeEventListener("mouseleave", handleMouseLeave);
-      }
-    };
-  }, []);
-
-  // Triple the works array so there's always enough content to scroll seamlessly
-  const triplicatedWorks = [...works, ...works, ...works];
-
   return (
-    <section id="our-work" className="py-section bg-[#f4f2eb]">
+    <section id="our-work" className="py-section bg-[#f4f2eb] overflow-hidden">
       <div className="container">
         <div className="flex items-end justify-between mb-[clamp(1.5rem,3vw,2.5rem)]">
           <div>
@@ -121,53 +62,73 @@ const OurWorkSection = () => {
         </div>
 
         {/* Carousel */}
-        <div
-          ref={containerRef}
-          className="flex gap-5 overflow-x-auto pb-6 scrollbar-hide"
-        >
-          {triplicatedWorks.map((work, i) => (
-            <motion.div
-              key={`${work.slug}-${i}`}
-              whileHover={{ y: -8 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              className="flex-shrink-0 w-[min(85vw,340px)] min-h-[260px] rounded-2xl overflow-hidden relative cursor-pointer group bg-muted"
-            >
-              <Link
-                to={`/our-work/${work.slug}`}
-                className="block absolute inset-0 z-10"
-                aria-label={`Read story: ${work.title}`}
-              />
-              <img
-                src={work.thumbnail}
-                alt={work.title}
-                loading="lazy"
-                className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-              />
-              <div
-                className={`absolute inset-0 bg-gradient-to-t ${gradients[i % gradients.length]} opacity-80 group-hover:opacity-90 transition-opacity duration-300`}
-              />
-              <div className="absolute inset-0 flex flex-col justify-between p-6 text-white pointer-events-none">
-                <div>
-                  <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-[11px] font-semibold uppercase tracking-wider">
-                    {work.category}
-                  </span>
-                </div>
-                <div>
-                  <h3 className="font-display font-bold text-lg leading-snug mb-1.5">
-                    {work.title}
-                  </h3>
-                  <p className="text-white/80 text-xs leading-relaxed line-clamp-2">
-                    {work.subtitle}
-                  </p>
-                  <div className="mt-4 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-white/90">
-                    Read story
-                    <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+        <div className="w-full relative">
+          <style>{`
+            .our-work-swiper .swiper-wrapper {
+              transition-timing-function: linear !important;
+            }
+          `}</style>
+          <Swiper
+            onSwiper={(swiper) => {
+              swiperRef.current = swiper;
+            }}
+            modules={[Autoplay]}
+            loop={true}
+            autoplay={{
+              delay: 0,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
+            speed={6000}
+            slidesPerView="auto"
+            spaceBetween={24}
+            className="w-full py-4 select-none our-work-swiper"
+          >
+            {works.map((work, i) => (
+              <SwiperSlide key={`${work.slug}-${i}`} style={{ width: "auto" }}>
+                <motion.div
+                  whileHover={{ y: -8 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                  className="flex-shrink-0 w-[min(85vw,340px)] min-h-[260px] rounded-2xl overflow-hidden relative cursor-pointer group bg-muted h-full"
+                >
+                  <Link
+                    to={`/our-work/${work.slug}`}
+                    className="block absolute inset-0 z-10"
+                    aria-label={`Read story: ${work.title}`}
+                  />
+                  <img
+                    src={work.thumbnail}
+                    alt={work.title}
+                    loading="lazy"
+                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div
+                    className={`absolute inset-0 bg-gradient-to-t ${gradients[i % gradients.length]} opacity-80 group-hover:opacity-90 transition-opacity duration-300`}
+                  />
+                  <div className="absolute inset-0 flex flex-col justify-between p-6 text-white pointer-events-none">
+                    <div>
+                      <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-[11px] font-semibold uppercase tracking-wider">
+                        {work.category}
+                      </span>
+                    </div>
+                    <div>
+                      <h3 className="font-display font-bold text-lg leading-snug mb-1.5">
+                        {work.title}
+                      </h3>
+                      <p className="text-white/80 text-xs leading-relaxed line-clamp-2">
+                        {work.subtitle}
+                      </p>
+                      <div className="mt-4 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-white/90">
+                        Read story
+                        <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <div className="absolute inset-0 rounded-2xl border-2 border-white/0 group-hover:border-white/20 transition-all duration-300 pointer-events-none" />
-            </motion.div>
-          ))}
+                  <div className="absolute inset-0 rounded-2xl border-2 border-white/0 group-hover:border-white/20 transition-all duration-300 pointer-events-none" />
+                </motion.div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
       </div>
     </section>
