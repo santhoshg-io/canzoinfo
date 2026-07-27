@@ -26,7 +26,7 @@ export const certificates: Record<string, Certificate> = {
   },
   "cz-ip-fpd-012": {
     id: "cz-ip-fpd-012",
-    name: "Prabu",
+    name: "Prabu S",
     college: "EASA College of Engineering and Technology",
     role: "Full Stack and Product Development Intern",
     duration: "30 Working Days",
