@@ -22,7 +22,7 @@ export const certificates: Record<string, Certificate> = {
     endDate: "July 20, 2026",
     issueDate: "July 31, 2026",
     status: "Completed",
-    photoUrl: "",
+    photoUrl: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785329845/Screenshot_20260501_091216_1.jpg_zp3noj.jpg",
   },
   "cz-ip-fpd-012": {
     id: "cz-ip-fpd-012",
@@ -34,7 +34,7 @@ export const certificates: Record<string, Certificate> = {
     endDate: "July 20, 2026",
     issueDate: "July 31, 2026",
     status: "Completed",
-    photoUrl: "",
+    photoUrl: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785329846/E720525AM034_-_Prabu_S.jpg_inwaa6.jpg",
   },
   "cz-ip-fpd-013": {
     id: "cz-ip-fpd-013",
@@ -46,7 +46,7 @@ export const certificates: Record<string, Certificate> = {
     endDate: "July 20, 2026",
     issueDate: "July 31, 2026",
     status: "Completed",
-    photoUrl: "",
+    photoUrl: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785329843/E720524AM006_-_Ganesh_1.jpg_mrbqpi.jpg",
   },
   "cz-ip-fpd-014": {
     id: "cz-ip-fpd-014",
@@ -58,7 +58,7 @@ export const certificates: Record<string, Certificate> = {
     endDate: "July 20, 2026",
     issueDate: "July 31, 2026",
     status: "Completed",
-    photoUrl: "",
+    photoUrl: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785329844/My_photo_-_Kayalvizhi.jpg_m5zurr.jpg",
   },
   "cz-ip-fpd-015": {
     id: "cz-ip-fpd-015",
@@ -70,7 +70,7 @@ export const certificates: Record<string, Certificate> = {
     endDate: "July 20, 2026",
     issueDate: "July 31, 2026",
     status: "Completed",
-    photoUrl: "",
+    photoUrl: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785329846/IMG_20260420_160548_-_Maheshwaran._S_y2agoc.png",
   },
   "cz-ip-fpd-016": {
     id: "cz-ip-fpd-016",
@@ -82,7 +82,7 @@ export const certificates: Record<string, Certificate> = {
     endDate: "July 20, 2026",
     issueDate: "July 31, 2026",
     status: "Completed",
-    photoUrl: "",
+    photoUrl: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785329846/E720524AM029_-_Sriram_R_nefbww.png",
   },
   "cz-ip-fpd-017": {
     id: "cz-ip-fpd-017",
@@ -94,7 +94,7 @@ export const certificates: Record<string, Certificate> = {
     endDate: "July 20, 2026",
     issueDate: "July 31, 2026",
     status: "Completed",
-    photoUrl: "",
+    photoUrl: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785329843/IMG-20260722-WA0002_-_Vidya_Sri_K.jpg_h1wfau.jpg",
   },
   "cz-ip-fpd-018": {
     id: "cz-ip-fpd-018",
@@ -106,7 +106,7 @@ export const certificates: Record<string, Certificate> = {
     endDate: "July 20, 2026",
     issueDate: "July 31, 2026",
     status: "Completed",
-    photoUrl: "",
+    photoUrl: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785329844/puruphoto_-_Purushothaman_B.jpg_wysmgz.jpg",
   },
   "cz-ip-fpd-019": {
     id: "cz-ip-fpd-019",
@@ -118,6 +118,6 @@ export const certificates: Record<string, Certificate> = {
     endDate: "July 20, 2026",
     issueDate: "July 31, 2026",
     status: "Completed",
-    photoUrl: "",
+    photoUrl: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785331007/IMG_20260729_183353_-_Monisha_M.jpg_p8fuup.jpg",
   },
 };

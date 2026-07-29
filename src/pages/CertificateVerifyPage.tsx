@@ -159,7 +159,7 @@ const CertificateVerifyPage = () => {
                         <img
                           src={result.photoUrl}
                           alt={result.name}
-                          className="w-full h-full object-cover"
+                          className="w-full h-full object-cover object-top"
                         />
                       </div>
                     </div>
