@@ -99,7 +99,7 @@ const CertificateVerifyPage = () => {
                 <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground w-5 h-5" />
                 <Input
                   type="text"
-                  placeholder="e.g. cz-ip-fpd-011"
+                  placeholder="e.g. cz-ip-fpd-010"
                   value={certId}
                   onChange={(e) => setCertId(e.target.value)}
                   className="pl-11 h-12 bg-background/50 border-border focus:border-accent focus:ring-accent rounded-xl text-base"
