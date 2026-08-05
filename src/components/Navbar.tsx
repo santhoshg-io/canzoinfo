@@ -1,5 +1,5 @@
 
-const canzoLogo = "https://res.cloudinary.com/odxzrb9z/image/upload/f_auto,q_auto:best/v1784897074/canzo_official_logo_vrruce.png";
+const canzoLogo = "https://res.cloudinary.com/odxzrb9z/image/upload/f_auto,q_auto:best,h_64/v1784897074/canzo_official_logo_vrruce.png";
 import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Menu, X } from "lucide-react";
@@ -98,7 +98,7 @@ const Navbar = () => {
       <div className={`container flex items-center justify-between transition-all duration-300 ${scrolled ? "h-12" : "h-16"}`}>
         <a href="/" onClick={(e) => { e.preventDefault(); navigate("/"); }} className="flex items-center gap-2 relative">
           <div className="relative inline-block">
-            <img src={canzoLogo} alt="Canzo" className="h-8" />
+            <img src={canzoLogo} alt="Canzo" className="h-8" width="90" height="32" />
             <div
               className="absolute pointer-events-none"
               style={{

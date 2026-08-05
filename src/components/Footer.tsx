@@ -1,5 +1,5 @@
 import { Linkedin, Instagram, MapPin } from "lucide-react";
-const canzoLogo = "https://res.cloudinary.com/odxzrb9z/image/upload/f_auto,q_auto:best/v1784897074/canzo_official_logo_vrruce.png";
+const canzoLogo = "https://res.cloudinary.com/odxzrb9z/image/upload/f_auto,q_auto:best,h_64/v1784897074/canzo_official_logo_vrruce.png";
 
 const socials = [
   { href: "https://www.linkedin.com/company/canzo-in/", label: "LinkedIn", Icon: Linkedin },
@@ -17,7 +17,7 @@ const Footer = () => {
         <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-[var(--space-gap)] items-start">
 
           <div>
-            <img src={canzoLogo} alt="Canzo" className="h-8 mb-4 brightness-0 invert opacity-80" />
+            <img src={canzoLogo} alt="Canzo" className="h-8 mb-4 brightness-0 invert opacity-80" width="90" height="32" />
             <p className="text-sm opacity-60 max-w-xs leading-relaxed">
               Canzo is a smart canteen ordering platform for colleges and educational institutions. Order food, skip queues, and enjoy campus life.
             </p>
