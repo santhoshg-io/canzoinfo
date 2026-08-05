@@ -83,25 +83,25 @@ export const showcaseData: Record<string, CollegeShowcase> = {
       skillsTitle: "Skills & Areas Worked On",
       skillsSubtitle: "Students successfully worked on:",
       objectives: [
+        "Market Research",
+        "Product Research",
+        "Business Research",
+        "Documentation",
+        "Product Planning",
         "UI Design",
         "Website Development",
-        "Product Planning",
-        "Documentation",
-        "Testing",
-        "Business Research",
-        "Product Research",
-        "Market Research"
+        "Testing"
       ],
       duration: "30 Working Days (June 8, 2026 - July 20, 2026)",
       skillsLearned: [
+        "Market Research",
+        "Product Research",
+        "Business Research",
+        "Documentation",
+        "Product Planning",
         "UI Design",
         "Website Development",
-        "Product Planning",
-        "Documentation",
-        "Testing",
-        "Business Research",
-        "Product Research",
-        "Market Research"
+        "Testing"
       ],
       technologiesUsed: [
         "React.js",

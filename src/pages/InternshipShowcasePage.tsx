@@ -271,8 +271,8 @@ const InternshipShowcasePage = () => {
 
                     <div className="p-6 flex flex-col items-center text-center">
                       {performer.award && (
-                        <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-accent/20 border border-accent/30 text-accent text-[11px] font-bold tracking-wide uppercase mb-2">
-                          <Trophy className="w-3 h-3 shrink-0" />
+                        <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200/80 dark:bg-amber-500/10 dark:border-amber-500/20 dark:text-amber-300 text-[11px] font-bold tracking-wider uppercase mb-2 shadow-sm transition-all duration-300">
+                          <Trophy className="w-3 h-3 shrink-0 text-amber-600 dark:text-amber-400" />
                           {performer.award}
                         </span>
                       )}
