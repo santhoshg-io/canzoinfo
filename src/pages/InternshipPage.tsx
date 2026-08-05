@@ -81,36 +81,41 @@ const InternshipPage = () => (
         {/* College Showcase Banner */}
         <motion.div 
           {...fadeUp}
-          className="mb-20 overflow-hidden rounded-2xl border border-border bg-card shadow-lg hover:shadow-2xl hover:border-accent/30 transition-all duration-300 group"
+          className="mb-20 overflow-hidden rounded-2xl border border-border bg-card shadow-lg hover:shadow-2xl hover:border-accent/30 transition-all duration-300 group flex flex-col sm:relative"
         >
-          <Link to="/internship/showcase/easa" className="block relative overflow-hidden aspect-[16/9] sm:aspect-[21/9] lg:aspect-[3/1]">
+          {/* Image Container */}
+          <Link to="/internship/showcase/easa" className="block overflow-hidden w-full aspect-[16/9] sm:aspect-[21/9] lg:aspect-[3/1] relative shrink-0">
             <img 
               src="https://res.cloudinary.com/odxzrb9z/image/upload/v1785907129/WhatsApp_Image_2026-08-04_at_10.48.10_AM_tkykhi.jpg" 
               alt="EASA College of Engineering & Technology Internship Showcase" 
               className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
             />
-            {/* Dark gradient overlay to ensure text readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/25 opacity-70 group-hover:opacity-85 transition-opacity duration-300" />
-            <div className="absolute inset-0 p-6 sm:p-8 flex flex-col justify-end gap-3 text-white">
-              <div>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent text-accent-foreground text-[10px] sm:text-xs font-bold tracking-wide uppercase mb-2 shadow-md">
-                  🎓 College Partner Showcase
-                </span>
-                <h3 className="text-xl sm:text-2xl md:text-3xl font-display font-bold drop-shadow-md text-white">
-                  EASA College of Engineering & Technology
-                </h3>
-                <p className="text-xs sm:text-sm text-white/85 max-w-xl drop-shadow-sm font-medium mt-1">
-                  Explore the projects, achievements, and journey of EASA students during their Full Stack internship.
-                </p>
-              </div>
-              <div className="mt-2 self-start">
-                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white text-black font-semibold text-xs sm:text-sm group-hover:bg-accent group-hover:text-accent-foreground transition-all shadow-lg">
+            {/* Dark gradient overlay - desktop/tablet only, hidden on mobile for clean visibility */}
+            <div className="hidden sm:block absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent opacity-70 group-hover:opacity-85 transition-opacity duration-300" />
+          </Link>
+
+          {/* Overlays on Desktop, Content below on Mobile */}
+          <div className="p-5 sm:absolute sm:inset-0 sm:p-8 sm:flex sm:flex-col sm:justify-end sm:gap-3 sm:text-white sm:pointer-events-none">
+            <div className="sm:pointer-events-auto">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent text-accent-foreground text-[10px] sm:text-xs font-bold tracking-wide uppercase mb-2.5 shadow-md">
+                🎓 College Partner Showcase
+              </span>
+              <h3 className="text-lg sm:text-2xl md:text-3xl font-display font-bold text-foreground sm:text-white drop-shadow-sm leading-tight">
+                EASA College of Engineering & Technology
+              </h3>
+              <p className="text-xs sm:text-sm text-muted-foreground sm:text-white/85 max-w-xl font-medium mt-1 leading-relaxed">
+                Explore the projects, achievements, and journey of EASA students during their Full Stack internship.
+              </p>
+            </div>
+            <div className="mt-4 sm:mt-2 self-start sm:pointer-events-auto">
+              <Link to="/internship/showcase/easa">
+                <span className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-accent text-accent-foreground sm:bg-white sm:text-black font-semibold text-xs sm:text-sm sm:group-hover:bg-accent sm:group-hover:text-accent-foreground transition-all shadow-lg">
                   Explore Showcase
                   <ArrowRight className="w-3.5 h-3.5" />
                 </span>
-              </div>
+              </Link>
             </div>
-          </Link>
+          </div>
         </motion.div>
 
 

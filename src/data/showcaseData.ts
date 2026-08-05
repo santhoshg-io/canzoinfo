@@ -157,62 +157,58 @@ export const showcaseData: Record<string, CollegeShowcase> = {
     gallery: [
       {
         url: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785907126/WhatsApp_Image_2026-08-04_at_10.48.11_AM_nzb76u.jpg",
-        caption: "Internship Certificate Handover Ceremony",
+        caption: "",
         category: "certificate"
       },
-      {
-        url: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785907126/WhatsApp_Image_2026-08-04_at_10.48.07_AM_hd9xwn.jpg",
-        caption: "Group Photo with Mentors & College Faculty",
-        category: "group"
-      },
+
       {
         url: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785907129/WhatsApp_Image_2026-08-04_at_10.48.08_AM_hcv6jj.jpg",
-        caption: "Interns Group Discussion & Technical Onboarding",
+        caption: "",
         category: "event"
       },
       {
         url: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785907124/WhatsApp_Image_2026-08-04_at_10.48.10_AM_1_yau9gb.jpg",
-        caption: "Individual Project Review & Feedback Session",
+        caption: "",
         category: "individual"
       },
       {
         url: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785907125/WhatsApp_Image_2026-08-04_at_10.48.08_AM_1_v2vodv.jpg",
-        caption: "Technical Workshop and System Architecture Briefing",
+        caption: "",
         category: "event"
       },
       {
         url: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785907125/WhatsApp_Image_2026-08-04_at_10.48.11_AM_1_hgrg0a.jpg",
-        caption: "Student Intern Certificate Handover Celebration",
+        caption: "",
         category: "certificate"
       },
       {
         url: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785907119/WhatsApp_Image_2026-08-04_at_10.48.09_AM_1_x6kpjo.jpg",
-        caption: "Product Planning & Wireframing Review",
+        caption: "",
         category: "individual"
       },
       {
         url: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785907119/WhatsApp_Image_2026-08-04_at_10.48.06_AM_1_puzktf.jpg",
-        caption: "Interns Group Photo at Campus Inauguration",
+        caption: "",
         category: "group"
       },
       {
         url: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785907116/WhatsApp_Image_2026-08-04_at_10.48.07_AM_1_rmgpui.jpg",
-        caption: "Active Collaboration Session & Peer Code Reviews",
+        caption: " ",
         category: "event"
       },
       {
         url: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785907119/WhatsApp_Image_2026-08-04_at_10.48.06_AM_p5wcp8.jpg",
-        caption: "Opening Speeches by College Principal & Mentors",
+        caption: "",
         category: "event"
       },
       {
         url: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785907123/WhatsApp_Image_2026-08-04_at_10.48.09_AM_2_nt8ymb.jpg",
-        caption: "Individual Presentation & Product Walkthrough",
+        caption: "",
         category: "individual"
       },
       {
         url: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785907121/WhatsApp_Image_2026-08-04_at_10.48.09_AM_e4exp0.jpg",
-        caption: "Technical Q&A Session & Practical Demos",
+        caption: "",
         category: "event"
       }
     ]

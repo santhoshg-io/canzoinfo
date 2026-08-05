@@ -389,18 +389,8 @@ const InternshipShowcasePage = () => {
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
                 
-                {/* Categorization Badge */}
-                <div className="absolute top-3 left-3">
-                  <span className="px-2 py-0.5 rounded-lg bg-black/60 backdrop-blur-md text-[9px] font-bold text-white uppercase tracking-wider border border-white/10">
-                    {item.category}
-                  </span>
-                </div>
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                  <p className="text-xs text-white font-medium drop-shadow">
-                    {item.caption}
-                  </p>
-                </div>
+
               </motion.div>
             ))}
           </div>
@@ -565,9 +555,7 @@ const InternshipShowcasePage = () => {
 
             {/* Bottom Caption Area */}
             <div className="w-full max-w-2xl text-center p-4 sm:p-6 text-white z-10">
-              <p className="text-sm font-semibold tracking-wide text-accent uppercase mb-1">
-                {college.gallery[lightboxIndex].category} Photo
-              </p>
+
               <p className="text-base text-white/90">
                 {college.gallery[lightboxIndex].caption}
               </p>
