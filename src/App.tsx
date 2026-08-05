@@ -14,6 +14,7 @@ const CollegesCanteensPage = lazy(() => import("./pages/CollegesCanteensPage"));
 const InternshipPage = lazy(() => import("./pages/InternshipPage"));
 const InternshipApplyPage = lazy(() => import("./pages/InternshipApplyPage"));
 const CertificateVerifyPage = lazy(() => import("./pages/CertificateVerifyPage"));
+const InternshipShowcasePage = lazy(() => import("./pages/InternshipShowcasePage"));
 const WorkDetailPage = lazy(() => import("./pages/WorkDetailPage"));
 const CareersPage = lazy(() => import("./pages/CareersPage"));
 const CareersApplyPage = lazy(() => import("./pages/CareersApplyPage"));
@@ -53,6 +54,7 @@ const App = () => (
                 <Route path="/internship" element={<InternshipPage />} />
                 <Route path="/internship/apply" element={<InternshipApplyPage />} />
                 <Route path="/internship/verify" element={<CertificateVerifyPage />} />
+                <Route path="/internship/showcase/:collegeId" element={<InternshipShowcasePage />} />
                 <Route path="/careers" element={<CareersPage />} />
                 <Route path="/careers/apply" element={<CareersApplyPage />} />
                 <Route path="/about" element={<AboutUsPage />} />
