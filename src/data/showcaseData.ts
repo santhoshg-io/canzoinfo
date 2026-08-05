@@ -88,7 +88,9 @@ export const showcaseData: Record<string, CollegeShowcase> = {
         "Product Planning",
         "Documentation",
         "Testing",
-        "Business Research"
+        "Business Research",
+        "Product Research",
+        "Market Research"
       ],
       duration: "30 Working Days (June 8, 2026 - July 20, 2026)",
       skillsLearned: [
@@ -97,7 +99,9 @@ export const showcaseData: Record<string, CollegeShowcase> = {
         "Product Planning",
         "Documentation",
         "Testing",
-        "Business Research"
+        "Business Research",
+        "Product Research",
+        "Market Research"
       ],
       technologiesUsed: [
         "React.js",
@@ -117,18 +121,18 @@ export const showcaseData: Record<string, CollegeShowcase> = {
     },
     topPerformers: [
       {
-        name: "Ganesh V",
-        role: "Full Stack and Product Development Intern",
-        photoUrl: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785907611/WhatsApp_Image_2026-08-05_at_9.03.37_AM_r1d0qh.jpg",
-        award: "Outstanding Project Leadership Award",
-        recognition: "Outstanding coordination, product planning, and system integration leadership.",
-      },
-      {
         name: "Santhosh G",
         role: "Full Stack and Product Development Intern",
         photoUrl: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785907619/WhatsApp_Image_2026-08-05_at_9.03.38_AM_hrvgvp.jpg",
         award: "Technical Excellence & Leadership Award",
         recognition: "Exemplary technical skills, product development leadership, and full stack orchestration.",
+      },
+      {
+        name: "Ganesh V",
+        role: "Full Stack and Product Development Intern",
+        photoUrl: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785907611/WhatsApp_Image_2026-08-05_at_9.03.37_AM_r1d0qh.jpg",
+        award: "Outstanding Project Leadership Award",
+        recognition: "Outstanding coordination, product planning, and system integration leadership.",
       },
       {
         name: "Prabu S",
