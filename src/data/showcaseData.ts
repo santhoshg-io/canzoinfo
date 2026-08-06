@@ -75,7 +75,7 @@ export const showcaseData: Record<string, CollegeShowcase> = {
   easa: {
     id: "easa",
     collegeName: "EASA College of Engineering and Technology",
-    internshipTitle: "Full Stack and Product Development Intern",
+    internshipTitle: "Full Stack and Product Development Internship",
     shortDescription: "Empowering next-generation developers through intensive hands-on training, industry-standard toolkits, and end-to-end web applications built from scratch.",
     coverImage: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785907129/WhatsApp_Image_2026-08-04_at_10.48.10_AM_tkykhi.jpg",
     overview: {
@@ -160,20 +160,9 @@ export const showcaseData: Record<string, CollegeShowcase> = {
     ],
     gallery: [
       {
-        url: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785907126/WhatsApp_Image_2026-08-04_at_10.48.11_AM_nzb76u.jpg",
-        caption: "",
-        category: "certificate"
-      },
-
-      {
         url: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785907129/WhatsApp_Image_2026-08-04_at_10.48.08_AM_hcv6jj.jpg",
         caption: "",
         category: "event"
-      },
-      {
-        url: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785907124/WhatsApp_Image_2026-08-04_at_10.48.10_AM_1_yau9gb.jpg",
-        caption: "",
-        category: "individual"
       },
       {
         url: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785907125/WhatsApp_Image_2026-08-04_at_10.48.08_AM_1_v2vodv.jpg",
@@ -214,6 +203,11 @@ export const showcaseData: Record<string, CollegeShowcase> = {
         url: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785907121/WhatsApp_Image_2026-08-04_at_10.48.09_AM_e4exp0.jpg",
         caption: "",
         category: "event"
+      },
+      {
+        url: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785907126/WhatsApp_Image_2026-08-04_at_10.48.11_AM_nzb76u.jpg",
+        caption: "",
+        category: "certificate"
       }
     ]
   }

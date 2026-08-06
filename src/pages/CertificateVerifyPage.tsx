@@ -204,6 +204,16 @@ const CertificateVerifyPage = () => {
                           <div className="font-semibold text-foreground mt-0.5 font-mono text-xs">{result.id.toUpperCase()} (Issued: {result.issueDate})</div>
                         </div>
                       </div>
+
+                      {result.award && (
+                        <div className="flex gap-3 items-start p-3.5 rounded-xl bg-amber-50 text-amber-800 border border-amber-200/80 dark:bg-amber-500/10 dark:border-amber-500/20 dark:text-amber-300 col-span-1 sm:col-span-2 shadow-sm">
+                          <Award className="w-5 h-5 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
+                          <div>
+                            <div className="text-xs text-amber-850 dark:text-amber-300 font-bold uppercase tracking-wider">Special Recognition</div>
+                            <div className="font-semibold text-foreground mt-0.5">{result.award}</div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

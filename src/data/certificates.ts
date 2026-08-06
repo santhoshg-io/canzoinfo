@@ -9,6 +9,7 @@ export interface Certificate {
   issueDate: string;
   status: "Active" | "Completed" | "Verified";
   photoUrl: string;
+  award?: string;
 }
 
 export const certificates: Record<string, Certificate> = {
@@ -23,6 +24,7 @@ export const certificates: Record<string, Certificate> = {
     issueDate: "July 31, 2026",
     status: "Completed",
     photoUrl: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785329845/Screenshot_20260501_091216_1.jpg_zp3noj.jpg",
+    award: "Technical Excellence & Leadership Award",
   },
   "cz-ip-fpd-012": {
     id: "cz-ip-fpd-012",
@@ -35,6 +37,7 @@ export const certificates: Record<string, Certificate> = {
     issueDate: "July 31, 2026",
     status: "Completed",
     photoUrl: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785329846/E720525AM034_-_Prabu_S.jpg_inwaa6.jpg",
+    award: "Excellence in Professionalism Award",
   },
   "cz-ip-fpd-013": {
     id: "cz-ip-fpd-013",
@@ -47,6 +50,7 @@ export const certificates: Record<string, Certificate> = {
     issueDate: "July 31, 2026",
     status: "Completed",
     photoUrl: "https://res.cloudinary.com/odxzrb9z/image/upload/v1785329843/E720524AM006_-_Ganesh_1.jpg_mrbqpi.jpg",
+    award: "Outstanding Project Leadership Award",
   },
   "cz-ip-fpd-014": {
     id: "cz-ip-fpd-014",
